@@ -14,6 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
+import { Input } from "./ui/input";
 
 export const AddNewCategory = () => {
   const [category, setCategory] = useState(false);
@@ -44,21 +45,36 @@ export const AddNewCategory = () => {
           <Image src={"/images/X.svg"} width={15} height={15} />
         </div>
         <div className="p-6">
-          <Select>
-            <SelectTrigger>
-              <SelectValue placeholder={<Image src={'/images/home.svg'} width={20} height={20}/>} />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup className="flex">
-                <SelectLabel>Fruits</SelectLabel>
-                <SelectItem value="apple">Apple</SelectItem>
-                <SelectItem value="banana">Banana</SelectItem>
-                <SelectItem value="blueberry">Blueberry</SelectItem>
-                <SelectItem value="grapes">Grapes</SelectItem>
-                <SelectItem value="pineapple">Pineapple</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+          <div className="flex gap-3">
+            <div className="w-20">
+              <Select>
+                <SelectTrigger>
+                  <SelectValue
+                    placeholder={
+                      <Image src={"/images/home.svg"} width={20} height={20} />
+                    }
+                  />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup className="flex">
+                    <SelectLabel>Fruits</SelectLabel>
+                    <SelectItem value="apple">Apple</SelectItem>
+                   
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="max-w-[350px] w-full">
+              <Select>
+                <SelectTrigger>
+                  <SelectValue placeholder="name" />
+                </SelectTrigger>
+              </Select>
+            </div>
+          </div>
+          <div className="mt-8">
+            <Button className="rounded-3xl bg-[#16A34A] w-full">Income</Button>
+          </div>
         </div>
       </Card>
     </div>
