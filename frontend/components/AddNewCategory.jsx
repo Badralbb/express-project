@@ -15,49 +15,69 @@ import {
   SelectValue,
 } from "./ui/select";
 import { Input } from "./ui/input";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "./ui/dialog";
+import {
+  BookA,
+  ChartBarIncreasing,
+  Check,
+  ChevronDown,
+  House,
+  HousePlus,
+  Icon,
+  ImageIcon,
+  Leaf,
+  LoaderPinwheel,
+  Mic,
+  NotebookPen,
+  NotepadTextDashed,
+  PictureInPicture2,
+  Table,
+  Tally5,
+  UserPen,
+  X,
+  ZoomIn,
+} from "lucide-react";
+import { PopoverTrigger } from "@radix-ui/react-popover";
+import { Popover, PopoverContent } from "./ui/popover";
 const icons = [
-  "/images/AnchorSimple.svg",
-  "/images/Baseball.svg",
-  "/images/BezierCurve.svg",
-  "/images/Exam.svg",
-  "/images/Exclude.svg",
-  "/images/GlobeSimple.svg",
-  "/images/home.svg",
-  "/images/HourglassSimpleMedium.svg",
-  "/images/IdentificationBadge.svg",
-  "/images/IdentificationCard.svg",
-  "/images/ImageSquare.svg",
-  "/images/IntersectSquare.svg",
-  "/images/Ladder.svg",
-  "/images/Leaf.svg",
-  "/images/ListPlus.svg",
-  "/images/MagnifyingGlassPlus.svg",
-  "/images/Microphone.svg",
-  "/images/MicrosoftExcelLogo.svg",
-  "/images/Notepad.svg",
-  "/images/NumberCircleSeven.svg",
-  "/images/NumberFive.svg",
-  "/images/OrangeSlice.svg",
-  "/images/Peace.svg",
-  "/images/Pencil.svg",
-  "/images/Question.svg",
-  "/images/RoadHorizon.svg",
-  "/images/ToiletPaper.svg",
-  "/images/Vector.svg",
-  "/images/Vignette.svg",
-  "/images/Watch.svg",
+  { name: "home", Icon: House },
+  { name: "house", Icon: HousePlus },
+  { name: "profile", Icon: UserPen },
+  { name: "note", Icon: NotebookPen },
+  { name: "stairs", Icon: ChartBarIncreasing },
+  { name: "window", Icon: PictureInPicture2 },
+  { name: "image", Icon: ImageIcon },
+  { name: "zoom", Icon: ZoomIn },
+  { name: "audio", Icon: Mic },
+  { name: "tables", Icon: Table },
+  { name: "notetaking", Icon: NotepadTextDashed },
+  { name: "orderedlist", Icon: BookA },
+  { name: "trees", Icon: Leaf },
+  { name: "five", Icon: Tally5 },
+  { name: "round7", Icon: LoaderPinwheel },
 ];
 const colors = [
-  { value: `#0166FF` },
-  { value: `#01B3FF` },
-  { value: `#41CC00` },
-  { value: `#F9D100` },
-  { value: `#FF7B01` },
-  { value: `#AE01FF` },
-  { value: `#FF0101` },
+  { value: `#0166FF`, name: "blue" },
+  { value: `#01B3FF`, name: "sky" },
+  { value: `#41CC00`, name: "green" },
+  { value: `#F9D100`, name: "yellow" },
+  { value: `#FF7B01`, name: "orange" },
+  { value: `#AE01FF`, name: "purple" },
+  { value: `#FF0101`, name: "red" },
 ];
+
 export const AddNewCategory = () => {
+  const [iconsValue,setIconsValue] = useState("home")
+  const [checkColor, setCheckColor] = useState("");
   const [categories, setCategories] = useState([]);
+  const [open, setOpen] = useState(false);
   const loadlist = async () => {
     const response = await fetch(`http://localhost:4000/categories`);
     const data = await response.json();
@@ -77,18 +97,18 @@ export const AddNewCategory = () => {
           "Content-type": "application/json; charset=UTF-8",
         },
       });
-     loadlist()
+      loadlist();
     }
   };
   useEffect(() => {
     loadlist();
   }, []);
-  const [category, setCategory] = useState(false);
+
   return (
     <div>
       <Button
-        onClick={() => setCategory(true)}
-        className="flex gap-1 bg-[#0166FF] items-center rounded-3xl"
+        onClick={() => setOpen(true)}
+        className="flex gap-1 hover:bg-[#0166FF] bg-[#0166FF] items-center rounded-3xl"
       >
         <svg
           width="16"
@@ -104,58 +124,60 @@ export const AddNewCategory = () => {
         </svg>
         <div>AddNew</div>
       </Button>
-
-      <Card className={`max-w-[494px] w-full ${category ? "block" : "hidden"}`}>
-        <div className="flex justify-between items-center py-5 border-b-2 px-6">
-          <CardTitle>Add Category</CardTitle>
-          <button onClick={() => setCategory(false)}>
-            <Image src={"/images/X.svg"} width={15} height={15} />
-          </button>
-        </div>
-        <div className="p-6">
-          <div className="flex gap-3">
-            <div className="w-20">
-              <Select>
-                <SelectTrigger>
-                  <SelectValue
-                    placeholder={
-                      <Image src={"/images/home.svg"} width={20} height={20} />
-                    }
-                  />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup className="grid grid-cols-6 gap-y-6 pb-6">
-                    {icons.map((cat, index) => (
-                      <SelectItem key={index} value={cat}>
-                        <Image src={cat} width={24} height={24} />
-                      </SelectItem>
-                    ))}
-                  </SelectGroup>
-                  <div className="border-b-2 w-[320px] mx-auto"></div>
-                  <div className="py-5 flex gap-7 px-7">
-                    {colors.map((color, index) => (
-                      <div
-                        key={index}
-                        className={`w-6 h-6 rounded-full bg-[${color.value}] cursor-pointer`}
-                      ></div>
+      <Dialog open={open}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle className="flex justify-between mb-2">
+              <div className="text-[#0F172A]">Add Category</div>
+              <div>
+                <X
+                  className="w-6 h-6 hover:cursor-pointer"
+                  onClick={() => setOpen(false)}
+                />
+              </div>
+            </DialogTitle>
+            <div className="flex gap-3">
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button variant="outline" className="w-[84px] flex gap-1">
+                    <House />
+                    <ChevronDown />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-[312px] flex flex-col gap-6">
+                  <div className="flex flex-wrap gap-6 w-full">
+                    {icons.map(({ name, Icon }) => (
+                      <button key={name}>
+                        <Icon />
+                      </button>
                     ))}
                   </div>
-                </SelectContent>
-              </Select>
+                  <div className="w-full border-t-2"></div>
+                  <div className="flex gap-4">
+                    {colors.map((color) => (
+                      <div
+                        onClick={() => setCheckColor(color.name)}
+                        key={color.name}
+                        className="w-6 h-6 rounded-full hover:cursor-pointer"
+                        style={{ backgroundColor: color.value }}
+                      >
+                        {color.name == checkColor && <Check />}
+                      </div>
+                    ))}
+                  </div>
+                </PopoverContent>
+              </Popover>
+              <Input className="max-w-[350px] w-full" placeholder="name" />
             </div>
-            <div className="max-w-[350px] w-full">
-              <Select>
-                <SelectTrigger>
-                  <SelectValue placeholder="name" />
-                </SelectTrigger>
-              </Select>
-            </div>
-          </div>
-          <div className="mt-8">
-            <Button className="rounded-3xl bg-[#16A34A] w-full">Income</Button>
-          </div>
-        </div>
-      </Card>
+          </DialogHeader>
+
+          <DialogFooter>
+            <Button className="w-full bg-[#16A34A] mt-4 hover:bg-[#16A34A]">
+              Add
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
