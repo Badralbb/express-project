@@ -91,7 +91,6 @@ export const AddNewCategory = () => {
     loadlist();
   }, []);
   const createNewCategory = async () => {
-    
     if (value) {
       await fetch(`http://localhost:4000/categories`, {
         method: "POST",
@@ -110,7 +109,16 @@ export const AddNewCategory = () => {
   const handleChange = (event) => {
     setValue(event.target.value);
   };
+  const handleKeyDown = (event) => {
+    if (event.key == "Enter") {
+      console.log(event.key);
+      handleChange(event);
 
+      createNewCategory();
+
+      setValue("");
+    }
+  };
   return (
     <div>
       {categories.map((item) => (
@@ -199,6 +207,7 @@ export const AddNewCategory = () => {
                 placeholder="name"
                 value={value}
                 onChange={handleChange}
+                onKeyDown={handleKeyDown}
               />
             </div>
           </DialogHeader>
