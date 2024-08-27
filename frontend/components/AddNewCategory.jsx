@@ -15,7 +15,47 @@ import {
   SelectValue,
 } from "./ui/select";
 import { Input } from "./ui/input";
-
+const icons = [
+  "/images/AnchorSimple.svg",
+  "/images/Baseball.svg",
+  "/images/BezierCurve.svg",
+  "/images/Exam.svg",
+  "/images/Exclude.svg",
+  "/images/GlobeSimple.svg",
+  "/images/home.svg",
+  "/images/HourglassSimpleMedium.svg",
+  "/images/IdentificationBadge.svg",
+  "/images/IdentificationCard.svg",
+  "/images/ImageSquare.svg",
+  "/images/IntersectSquare.svg",
+  "/images/Ladder.svg",
+  "/images/Leaf.svg",
+  "/images/ListPlus.svg",
+  "/images/MagnifyingGlassPlus.svg",
+  "/images/Microphone.svg",
+  "/images/MicrosoftExcelLogo.svg",
+  "/images/Notepad.svg",
+  "/images/NumberCircleSeven.svg",
+  "/images/NumberFive.svg",
+  "/images/OrangeSlice.svg",
+  "/images/Peace.svg",
+  "/images/Pencil.svg",
+  "/images/Question.svg",
+  "/images/RoadHorizon.svg",
+  "/images/ToiletPaper.svg",
+  "/images/Vector.svg",
+  "/images/Vignette.svg",
+  "/images/Watch.svg",
+];
+const colors = [
+  { value: `#0166FF` },
+  { value: `#01B3FF` },
+  { value: `#41CC00` },
+  { value: `#F9D100` },
+  { value: `#FF7B01` },
+  { value: `#AE01FF` },
+  { value: `#FF0101` },
+];
 export const AddNewCategory = () => {
   const [category, setCategory] = useState(false);
   return (
@@ -39,10 +79,12 @@ export const AddNewCategory = () => {
         <div>AddNew</div>
       </Button>
 
-      <Card className="max-w-[494px] w-full">
+      <Card className={`max-w-[494px] w-full ${category ? "block" : "hidden"}`}>
         <div className="flex justify-between items-center py-5 border-b-2 px-6">
           <CardTitle>Add Category</CardTitle>
-          <Image src={"/images/X.svg"} width={15} height={15} />
+          <button onClick={() => setCategory(false)}>
+            <Image src={"/images/X.svg"} width={15} height={15} />
+          </button>
         </div>
         <div className="p-6">
           <div className="flex gap-3">
@@ -56,11 +98,22 @@ export const AddNewCategory = () => {
                   />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectGroup className="flex">
-                    <SelectLabel>Fruits</SelectLabel>
-                    <SelectItem value="apple">Apple</SelectItem>
-                   
+                  <SelectGroup className="grid grid-cols-6 gap-y-6 pb-6">
+                    {icons.map((cat, index) => (
+                      <SelectItem key={index} value={cat}>
+                        <Image src={cat} width={24} height={24} />
+                      </SelectItem>
+                    ))}
                   </SelectGroup>
+                  <div className="border-b-2 w-[320px] mx-auto"></div>
+                  <div className="py-5 flex gap-7 px-7">
+                    {colors.map((color, index) => (
+                      <div
+                        key={index}
+                        className={`w-6 h-6 rounded-full bg-[${color.value}] cursor-pointer`}
+                      ></div>
+                    ))}
+                  </div>
                 </SelectContent>
               </Select>
             </div>
