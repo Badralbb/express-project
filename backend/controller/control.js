@@ -5,7 +5,7 @@ const postCategory = async (req, res) => {
   const { name, color, icon } = req.body;
   await sql`insert into category(id,name,color,icon)
         values(id=${id},name=${name},color=${color},icon=${icon})`;
-  res.status(201).send("Success");
+  res.status(201).json(["Success"]);
 };
 const getCategories = async (req, res) => {
   const categorires = await sql`select * from category`;
@@ -27,5 +27,5 @@ module.exports = {
   postCategory,
   getCategories,
   putCategories,
-  deleteCategoires
+  deleteCategoires,
 };

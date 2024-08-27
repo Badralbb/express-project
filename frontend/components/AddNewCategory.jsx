@@ -74,15 +74,19 @@ const colors = [
 ];
 
 export const AddNewCategory = () => {
-  const [iconsValue,setIconsValue] = useState("home")
+  const [popoverContent, setPopoverContent] = useState(false);
+  const [iconsName, setIconsName] = useState("home");
   const [checkColor, setCheckColor] = useState("");
-  const [categories, setCategories] = useState([]);
   const [open, setOpen] = useState(false);
+  const [categories, setCategories] = useState([]);
   const loadlist = async () => {
     const response = await fetch(`http://localhost:4000/categories`);
     const data = await response.json();
     setCategories(data);
   };
+  useEffect(() => {
+    loadlist();
+  }, []);
   const createNewCategory = async () => {
     const name = prompt("name...");
     if (name) {
@@ -90,8 +94,8 @@ export const AddNewCategory = () => {
         method: "POST",
         body: JSON.stringify({
           name: name,
-          color: "red",
-          icon: "hooson",
+          color: checkColor,
+          icon: iconsName,
         }),
         headers: {
           "Content-type": "application/json; charset=UTF-8",
@@ -100,9 +104,6 @@ export const AddNewCategory = () => {
       loadlist();
     }
   };
-  useEffect(() => {
-    loadlist();
-  }, []);
 
   return (
     <div>
@@ -124,6 +125,11 @@ export const AddNewCategory = () => {
         </svg>
         <div>AddNew</div>
       </Button>
+      {categories.map((item) => {
+        <div className="text-black" key={item.id}>
+          fafsa
+        </div>;
+      })}
       <Dialog open={open}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
@@ -139,40 +145,56 @@ export const AddNewCategory = () => {
             <div className="flex gap-3">
               <Popover>
                 <PopoverTrigger asChild>
-                  <Button variant="outline" className="w-[84px] flex gap-1">
-                    <House />
+                  <Button
+                    onClick={() => setPopoverContent(true)}
+                    variant="outline"
+                    className="w-[84px] flex gap-1"
+                  >
+                    {icons.map(
+                      (icon) => icon.name == iconsName && <icon.Icon />
+                    )}
                     <ChevronDown />
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-[312px] flex flex-col gap-6">
-                  <div className="flex flex-wrap gap-6 w-full">
-                    {icons.map(({ name, Icon }) => (
-                      <button key={name}>
-                        <Icon />
-                      </button>
-                    ))}
-                  </div>
-                  <div className="w-full border-t-2"></div>
-                  <div className="flex gap-4">
-                    {colors.map((color) => (
-                      <div
-                        onClick={() => setCheckColor(color.name)}
-                        key={color.name}
-                        className="w-6 h-6 rounded-full hover:cursor-pointer"
-                        style={{ backgroundColor: color.value }}
-                      >
-                        {color.name == checkColor && <Check />}
-                      </div>
-                    ))}
-                  </div>
-                </PopoverContent>
+                {popoverContent && (
+                  <PopoverContent className="w-[312px] flex flex-col gap-6">
+                    <div className="flex flex-wrap gap-6 w-full">
+                      {icons.map(({ name, Icon }) => (
+                        <button
+                          onClick={() => {
+                            setIconsName(name), setPopoverContent(false);
+                          }}
+                          key={name}
+                        >
+                          <Icon />
+                        </button>
+                      ))}
+                    </div>
+                    <div className="w-full border-t-2"></div>
+                    <div className="flex gap-4">
+                      {colors.map((color) => (
+                        <div
+                          onClick={() => setCheckColor(color.name)}
+                          key={color.name}
+                          className="w-6 h-6 rounded-full hover:cursor-pointer"
+                          style={{ backgroundColor: color.value }}
+                        >
+                          {color.name == checkColor && <Check />}
+                        </div>
+                      ))}
+                    </div>
+                  </PopoverContent>
+                )}
               </Popover>
               <Input className="max-w-[350px] w-full" placeholder="name" />
             </div>
           </DialogHeader>
 
           <DialogFooter>
-            <Button className="w-full bg-[#16A34A] mt-4 hover:bg-[#16A34A]">
+            <Button
+              onClick={createNewCategory}
+              className="w-full bg-[#16A34A] mt-4 hover:bg-[#16A34A]"
+            >
               Add
             </Button>
           </DialogFooter>
