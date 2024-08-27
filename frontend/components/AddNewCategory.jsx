@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Button } from "./ui/button";
 import { Card, CardTitle } from "./ui/card";
@@ -57,6 +57,32 @@ const colors = [
   { value: `#FF0101` },
 ];
 export const AddNewCategory = () => {
+  const [categories, setCategories] = useState([]);
+  const loadlist = async () => {
+    const response = await fetch(`http://localhost:4000/categories`);
+    const data = await response.json();
+    setCategories(data);
+  };
+  const createNewCategory = async () => {
+    const name = prompt("name...");
+    if (name) {
+      await fetch(`http://localhost:4000/categories`, {
+        method: "POST",
+        body: JSON.stringify({
+          name: name,
+          color: "red",
+          icon: "hooson",
+        }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+     loadlist()
+    }
+  };
+  useEffect(() => {
+    loadlist();
+  }, []);
   const [category, setCategory] = useState(false);
   return (
     <div>
