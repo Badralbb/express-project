@@ -24,6 +24,7 @@ import {
   DialogTitle,
 } from "./ui/dialog";
 import {
+  AirVent,
   BookA,
   ChartBarIncreasing,
   Check,
@@ -107,6 +108,11 @@ export const AddNewCategory = () => {
 
   return (
     <div>
+      {categories.map((item) => {
+        <div className="text-black" key={item.id}>
+          fasfgsagfsa
+        </div>;
+      })}
       <Button
         onClick={() => setOpen(true)}
         className="flex gap-1 hover:bg-[#0166FF] bg-[#0166FF] items-center rounded-3xl"
@@ -125,11 +131,7 @@ export const AddNewCategory = () => {
         </svg>
         <div>AddNew</div>
       </Button>
-      {categories.map((item) => {
-        <div className="text-black" key={item.id}>
-          fafsa
-        </div>;
-      })}
+
       <Dialog open={open}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
@@ -151,7 +153,7 @@ export const AddNewCategory = () => {
                     className="w-[84px] flex gap-1"
                   >
                     {icons.map(
-                      (icon) => icon.name == iconsName && <icon.Icon />
+                      (icon) => icon.name == iconsName && <icon.Icon key={icon.name}/>
                     )}
                     <ChevronDown />
                   </Button>

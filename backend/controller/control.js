@@ -1,15 +1,15 @@
 const { sql } = require("../configs/database");
-
+const { v4: uuidv4 } = require("uuid");
 const postCategory = async (req, res) => {
   const id = uuidv4();
   const { name, color, icon } = req.body;
   await sql`insert into category(id,name,color,icon)
-        values(id=${id},name=${name},color=${color},icon=${icon})`;
+        values(${id},${name},${color},${icon})`;
   res.status(201).json(["Success"]);
 };
 const getCategories = async (req, res) => {
   const categorires = await sql`select * from category`;
-  res.send(categorires);
+  res.json(categorires);
 };
 const putCategories = async (req, res) => {
   const { id } = req.params;
