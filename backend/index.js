@@ -1,7 +1,6 @@
-const { startApp } = require("./services/basic")
+const { startApp } = require("./configs/basic");
 
-const app = startApp()
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
-
+const app = startApp();
+app.get("/categorires", (req, res) => {
+  res.send("Hello World!");
+});
