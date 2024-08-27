@@ -47,6 +47,7 @@ import {
 } from "lucide-react";
 import { PopoverTrigger } from "@radix-ui/react-popover";
 import { Popover, PopoverContent } from "./ui/popover";
+import { set } from "date-fns";
 const icons = [
   { name: "home", Icon: House },
   { name: "house", Icon: HousePlus },
@@ -80,6 +81,7 @@ export const AddNewCategory = () => {
   const [checkColor, setCheckColor] = useState("");
   const [open, setOpen] = useState(false);
   const [categories, setCategories] = useState([]);
+  const [value, setValue] = useState("");
   const loadlist = async () => {
     const response = await fetch(`http://localhost:4000/categories`);
     const data = await response.json();
@@ -89,12 +91,12 @@ export const AddNewCategory = () => {
     loadlist();
   }, []);
   const createNewCategory = async () => {
-    const name = prompt("name...");
-    if (name) {
+    
+    if (value) {
       await fetch(`http://localhost:4000/categories`, {
         method: "POST",
         body: JSON.stringify({
-          name: name,
+          name: value,
           color: checkColor,
           icon: iconsName,
         }),
@@ -105,14 +107,17 @@ export const AddNewCategory = () => {
       loadlist();
     }
   };
+  const handleChange = (event) => {
+    setValue(event.target.value);
+  };
 
   return (
     <div>
-      {categories.map((item) => {
+      {categories.map((item) => (
         <div className="text-black" key={item.id}>
-          fasfgsagfsa
-        </div>;
-      })}
+          {item.name}
+        </div>
+      ))}
       <Button
         onClick={() => setOpen(true)}
         className="flex gap-1 hover:bg-[#0166FF] bg-[#0166FF] items-center rounded-3xl"
@@ -153,7 +158,8 @@ export const AddNewCategory = () => {
                     className="w-[84px] flex gap-1"
                   >
                     {icons.map(
-                      (icon) => icon.name == iconsName && <icon.Icon key={icon.name}/>
+                      (icon) =>
+                        icon.name == iconsName && <icon.Icon key={icon.name} />
                     )}
                     <ChevronDown />
                   </Button>
@@ -188,7 +194,12 @@ export const AddNewCategory = () => {
                   </PopoverContent>
                 )}
               </Popover>
-              <Input className="max-w-[350px] w-full" placeholder="name" />
+              <Input
+                className="max-w-[350px] w-full"
+                placeholder="name"
+                value={value}
+                onChange={handleChange}
+              />
             </div>
           </DialogHeader>
 
