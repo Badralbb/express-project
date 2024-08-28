@@ -41,12 +41,12 @@ export function CashGraphic() {
           <CardTitle>Income - Expense</CardTitle>
         </div>
         <div className="flex pt-8 gap-[17px]">
-          <div className="flex flex-col gap-[18px] text-[#71717A] text-sm">
+          {/* <div className="flex flex-col gap-[18px] text-[#71717A] text-sm">
             <div>3’000’000</div>
             <div>2’000’000</div>
             <div>1’000’000</div>
             <div>0</div>
-          </div>
+          </div> */}
           <CardContent>
             <ChartContainer config={chartConfig}>
               <BarChart accessibilityLayer data={chartData}>
