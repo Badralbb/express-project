@@ -121,11 +121,11 @@ export const AddNewCategory = () => {
   };
   return (
     <div>
-      {categories.map((item) => (
+      {/* {categories.map((item) => (
         <div className="text-black" key={item.id}>
           {item.name}
         </div>
-      ))}
+      ))} */}
       <Button
         onClick={() => setOpen(true)}
         className="flex gap-1 hover:bg-[#0166FF] bg-[#0166FF] items-center rounded-3xl"
