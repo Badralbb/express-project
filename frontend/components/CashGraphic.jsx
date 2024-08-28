@@ -40,16 +40,15 @@ export function CashGraphic() {
         <div className="border-b-2 py-4 px-6">
           <CardTitle>Income - Expense</CardTitle>
         </div>
-
-        <CardContent>
-          <div className="flex">
-            <div className="flex flex-col gap-[18px] text-[#71717A] text-sm">
-              <div>3’000’000</div>
-              <div>2’000’000</div>
-              <div>1’000’000</div>
-              <div>0</div>
-            </div>
-            <ChartContainer className="flex" config={chartConfig}>
+        <div className="flex pt-8 gap-[17px]">
+          <div className="flex flex-col gap-[18px] text-[#71717A] text-sm">
+            <div>3’000’000</div>
+            <div>2’000’000</div>
+            <div>1’000’000</div>
+            <div>0</div>
+          </div>
+          <CardContent>
+            <ChartContainer config={chartConfig}>
               <BarChart accessibilityLayer data={chartData}>
                 <CartesianGrid vertical={false} />
                 <XAxis
@@ -67,8 +66,8 @@ export function CashGraphic() {
                 <Bar dataKey="mobile" fill="var(--color-mobile)" radius={4} />
               </BarChart>
             </ChartContainer>
-          </div>
-        </CardContent>
+          </CardContent>
+        </div>
       </Card>
     </div>
   );
