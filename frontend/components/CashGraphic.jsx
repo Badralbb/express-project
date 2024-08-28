@@ -1,13 +1,11 @@
 "use client";
-import { PieChart} from "lucide-react";
+import { PieChart } from "lucide-react";
 import {
   Bar,
   BarChart,
   CartesianGrid,
   Legend,
-
   Pie,
-
   Rectangle,
   ResponsiveContainer,
   Tooltip,
@@ -28,6 +26,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { PieDonut } from "./PieDonut";
 
 const chartData = [
   { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
@@ -109,12 +108,12 @@ const data = [
 export function CashGraphic() {
   return (
     <div className="max-w-[1200px] w-full flex gap-6 mx-auto mt-8">
-      <div className="w-[588px]">
+      <div className="flex-1">
         <Card>
           <div className="border-b-2 py-4 px-6">
             <CardTitle>Income - Expense</CardTitle>
           </div>
-          <div className="max-w-[542px] w-full h-[162px] my-8">
+          <div className="aspect-video my-8">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
                 width={500}
@@ -139,30 +138,13 @@ export function CashGraphic() {
           </div>
         </Card>
       </div>
-      <Card className="flex flex-col max-w-[588px] mx-auto w-full">
-        <CardHeader className="items-center pb-0">
-          <CardTitle>Pie Chart - Donut</CardTitle>
-          <CardDescription>January - June 2024</CardDescription>
-        </CardHeader>
-        <CardContent className="flex-1 pb-0">
-          <ChartContainer
-            config={chartConfig}
-            className="mx-auto aspect-square max-h-[250px]"
-          >
-            <PieChart>
-              <ChartTooltip
-                cursor={false}
-                content={<ChartTooltipContent hideLabel />}
-              />
-              <Pie
-                data={chartData}
-                dataKey="visitors"
-                nameKey="browser"
-                innerRadius={60}
-              />
-            </PieChart>
-          </ChartContainer>
-        </CardContent>
+      <Card className="flex-1">
+        <div className="border-b-2 py-4 px-6">
+          <CardTitle>Income - Expense</CardTitle>
+        </div>
+        <div>
+          <PieDonut />
+        </div>
       </Card>
     </div>
   );
