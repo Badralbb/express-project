@@ -67,7 +67,7 @@ const icons = [
   { name: "orderedlist", Icon: BookA },
   { name: "trees", Icon: Leaf },
   { name: "five", Icon: Tally5 },
-  { name: "round7", Icon: LoaderPinwheel },
+  { name: "round7", Icon: LoaderPinwheel }
 ];
 const colors = [
   { value: `#0166FF`, name: "blue" },
