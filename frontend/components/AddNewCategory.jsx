@@ -171,15 +171,17 @@ export const AddNewCategory = () => {
         <div>
           <div className="text-[#1F2937] flex justify-between mb-5">
             <div>Category</div>
-            <div>clear</div>
+            <Button >clear</Button>
           </div>
           <div className="flex flex-col gap-2">
             {categories.map((item) => (
               <div className="text-black flex justify-between" key={item.id}>
                 <div className="flex gap-1">
                   <div>
-                    fasfsadfd
-                    <selectIcons categoryIcon={item.icon} />
+                    <CategoryIcon
+                      categoryIcon={item.icon}
+                      IconColor={item.color}
+                    />
                   </div>
 
                   <div>{item.name}</div>
@@ -203,7 +205,7 @@ export const AddNewCategory = () => {
                 />
               </svg>
 
-              <div onClick={createNewCategory}>Add Category</div>
+              <div onClick={() => setOpen(true)}>Add Category</div>
             </div>
             <div className="flex flex-col gap-4">
               <div>Amount Range</div>
@@ -306,9 +308,21 @@ export const AddNewCategory = () => {
   );
 };
 
-export function selectIcons({ categoryIcon }) {
-  console.log(categoryIcon)
-  const { Icon } = icons.find((item) => item.name === categoryIcon);
+function CategoryIcon({ categoryIcon, IconColor }) {
+  const iconObject = icons.find((item) => item.name === categoryIcon);
+  console.log(IconColor);
+  console.log(colors);
 
-  return "fasfasfsafs";
+  const colorObject = colors.find((item) => item.name === IconColor);
+  console.log(colorObject);
+
+  if (!iconObject) return <null />;
+  let hexColor;
+  if (!colorObject) {
+    hexColor = "#000";
+  } else {
+    hexColor = colorObject.value;
+  }
+  const { Icon } = iconObject;
+  return <Icon style={{ color: hexColor }} />;
 }
