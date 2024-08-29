@@ -51,6 +51,7 @@ import { PopoverTrigger } from "@radix-ui/react-popover";
 import { Popover, PopoverContent } from "./ui/popover";
 import { set } from "date-fns";
 import { Slider } from "./ui/slider";
+import { DeleteAllCategories } from "./DeleteAllCategories";
 const icons = [
   { name: "home", Icon: House },
   { name: "house", Icon: HousePlus },
@@ -88,6 +89,7 @@ export const AddNewCategory = () => {
   const [open, setOpen] = useState(false);
   const [categories, setCategories] = useState([]);
   const [value, setValue] = useState("");
+  const [loading,setLoading] = useState(false)
   const loadlist = async () => {
     const response = await fetch(`http://localhost:4000/categories`);
     const data = await response.json();
@@ -95,8 +97,9 @@ export const AddNewCategory = () => {
   };
   useEffect(() => {
     loadlist();
-  }, []);
+  }, [DeleteAllCategories]);
   const createNewCategory = async () => {
+    setLoading(true)
     if (value) {
       await fetch(`http://localhost:4000/categories`, {
         method: "POST",
@@ -110,6 +113,8 @@ export const AddNewCategory = () => {
         },
       });
       loadlist();
+      setLoading(false)
+      setOpen(false)
     }
   };
   const handleChange = (event) => {
@@ -171,7 +176,7 @@ export const AddNewCategory = () => {
         <div>
           <div className="text-[#1F2937] flex justify-between mb-5">
             <div>Category</div>
-            <Button >clear</Button>
+            <Button onClick={DeleteAllCategories}>clear</Button>
           </div>
           <div className="flex flex-col gap-2">
             {categories.map((item) => (
@@ -295,7 +300,7 @@ export const AddNewCategory = () => {
           </DialogHeader>
 
           <DialogFooter>
-            <Button
+            <Button disabled={loading}
               onClick={createNewCategory}
               className="w-full bg-[#16A34A] mt-4 hover:bg-[#16A34A]"
             >
