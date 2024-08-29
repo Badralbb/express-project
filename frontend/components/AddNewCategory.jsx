@@ -179,6 +179,7 @@ export const AddNewCategory = () => {
               <div className="text-black flex justify-between" key={item.id}>
                 <div className="flex gap-1">
                   <Eye />
+                  
                   <div>{item.name}</div>
                 </div>
                 <div>
