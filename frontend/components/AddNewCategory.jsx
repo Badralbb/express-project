@@ -97,7 +97,7 @@ export const AddNewCategory = () => {
   };
   useEffect(() => {
     loadlist();
-  }, [DeleteAllCategories]);
+  }, []);
   const createNewCategory = async () => {
     setLoading(true)
     if (value) {
@@ -115,6 +115,7 @@ export const AddNewCategory = () => {
       loadlist();
       setLoading(false)
       setOpen(false)
+      setValue('')
     }
   };
   const handleChange = (event) => {
@@ -130,6 +131,13 @@ export const AddNewCategory = () => {
       setValue("");
     }
   };
+
+  const handleDelete = () => {
+    DeleteAllCategories().then(() => {
+      loadlist();
+    });
+  }
+
   const [typeValue, setTypeValue] = useState("all");
   return (
     <div className="max-w-[1200px] w-full mx-auto">
@@ -176,7 +184,7 @@ export const AddNewCategory = () => {
         <div>
           <div className="text-[#1F2937] flex justify-between mb-5">
             <div>Category</div>
-            <Button onClick={DeleteAllCategories}>clear</Button>
+            <Button onClick={handleDelete}>clear</Button>
           </div>
           <div className="flex flex-col gap-2">
             {categories.map((item) => (
