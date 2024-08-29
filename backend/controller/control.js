@@ -24,7 +24,7 @@ const deleteCategoires = async (req, res) => {
   res.status(204).send("Success");
 };
 const deleteAllCategoires = async(req,res)=>{
-  await sql`delete * from category`
+  await sql`delete from category *`
   res.status(204).send("Success")
 }
 module.exports = {
