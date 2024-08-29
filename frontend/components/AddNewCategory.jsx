@@ -126,7 +126,7 @@ export const AddNewCategory = () => {
       setValue("");
     }
   };
-  const [typeValue, setTypeValue] = useState("");
+  const [typeValue, setTypeValue] = useState("all");
   return (
     <div className="max-w-[1200px] w-full mx-auto">
       <div className="flex bg-[#F9FAFB] flex-col gap-6 max-w-[282px] px-4">
@@ -179,7 +179,7 @@ export const AddNewCategory = () => {
               <div className="text-black flex justify-between" key={item.id}>
                 <div className="flex gap-1">
                   <Eye />
-                  
+
                   <div>{item.name}</div>
                 </div>
                 <div>
