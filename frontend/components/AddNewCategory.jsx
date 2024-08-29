@@ -34,6 +34,7 @@ import {
 import { PopoverTrigger } from "@radix-ui/react-popover";
 import { Popover, PopoverContent } from "./ui/popover";
 import { Slider } from "./ui/slider";
+import { PlusSvg } from "./Plus";
 const icons = [
   { name: "home", Icon: House },
   { name: "house", Icon: HousePlus },
@@ -121,26 +122,23 @@ export const AddNewCategory = () => {
     loadlist();
   };
   const [typeValue, setTypeValue] = useState("all");
+  const [inputValue, setInputValue] = useState([0]);
+  const inputTarget = (event) => {
+    const newValue = [...value];
+
+    newValue[event.target.dataset.index] = Number(event.target.value);
+    setInputValue(newValue);
+  };
+
   return (
     <div className="max-w-[1200px] w-full mx-auto">
       <div className="flex bg-[#F9FAFB] flex-col gap-6 max-w-[282px] px-4">
         <div className="text-[#000000] text-2xl">Records</div>
         <Button
           onClick={() => setOpen(true)}
-          className="flex  gap-1 hover:bg-[#0166FF] bg-[#0166FF] items-center rounded-3xl"
+          className="flex  gap-1 text-white hover:bg-[#0166FF] bg-[#0166FF] items-center rounded-3xl"
         >
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 16 16"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M15.5 8C15.5 8.16576 15.4342 8.32473 15.3169 8.44194C15.1997 8.55915 15.0408 8.625 14.875 8.625H8.625V14.875C8.625 15.0408 8.55915 15.1997 8.44194 15.3169C8.32473 15.4342 8.16576 15.5 8 15.5C7.83424 15.5 7.67527 15.4342 7.55806 15.3169C7.44085 15.1997 7.375 15.0408 7.375 14.875V8.625H1.125C0.95924 8.625 0.800269 8.55915 0.683058 8.44194C0.565848 8.32473 0.5 8.16576 0.5 8C0.5 7.83424 0.565848 7.67527 0.683058 7.55806C0.800269 7.44085 0.95924 7.375 1.125 7.375H7.375V1.125C7.375 0.95924 7.44085 0.800269 7.55806 0.683058C7.67527 0.565848 7.83424 0.5 8 0.5C8.16576 0.5 8.32473 0.565848 8.44194 0.683058C8.55915 0.800269 8.625 0.95924 8.625 1.125V7.375H14.875C15.0408 7.375 15.1997 7.44085 15.3169 7.55806C15.4342 7.67527 15.5 7.83424 15.5 8Z"
-              fill="white"
-            />
-          </svg>
+          <PlusSvg color={"#FFFFFF"} />
           <div>AddNew</div>
         </Button>
 
@@ -187,39 +185,33 @@ export const AddNewCategory = () => {
               </div>
             ))}
             <div className="flex items-center gap-1 cursor-pointer">
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 20 20"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M17.8125 10C17.8125 10.2486 17.7137 10.4871 17.5379 10.6629C17.3621 10.8387 17.1236 10.9375 16.875 10.9375H10.9375V16.875C10.9375 17.1236 10.8387 17.3621 10.6629 17.5379C10.4871 17.7137 10.2486 17.8125 10 17.8125C9.75136 17.8125 9.5129 17.7137 9.33709 17.5379C9.16127 17.3621 9.0625 17.1236 9.0625 16.875V10.9375H3.125C2.87636 10.9375 2.6379 10.8387 2.46209 10.6629C2.28627 10.4871 2.1875 10.2486 2.1875 10C2.1875 9.75136 2.28627 9.5129 2.46209 9.33709C2.6379 9.16127 2.87636 9.0625 3.125 9.0625H9.0625V3.125C9.0625 2.87636 9.16127 2.6379 9.33709 2.46209C9.5129 2.28627 9.75136 2.1875 10 2.1875C10.2486 2.1875 10.4871 2.28627 10.6629 2.46209C10.8387 2.6379 10.9375 2.87636 10.9375 3.125V9.0625H16.875C17.1236 9.0625 17.3621 9.16127 17.5379 9.33709C17.7137 9.5129 17.8125 9.75136 17.8125 10Z"
-                  fill="#0166FF"
-                />
-              </svg>
+              <PlusSvg color={"#0166FF"} />
 
               <div onClick={() => setOpen(true)}>Add Category</div>
             </div>
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 mt-4">
               <div>Amount Range</div>
               <div className="flex gap-4">
-                {/* <Input
-                  value={0}
-                  className="bg-[#D1D5DB]"
-                  type="text"
-                  placeholder="search"
-                /> */}
-                {/* <Input
-                  className="bg-[#D1D5DB]"
-                  type="text"
-                  value={1000}
-                  placeholder="search"
-                /> */}
+                <div className="bg-[#D1D5DB] py-4 px-3 flex-1 rounded-lg">
+                  {inputValue}
+                </div>
+                <div className="bg-[#D1D5DB] py-4 px-3 flex-1 rounded-lg">
+                  {1000}
+                </div>
               </div>
               <div>
-                <Slider defaultValue={[50]} max={1000} step={1} />
+                <Input
+                  type="range"
+                  value={inputValue}
+                  max={1000}
+                  data-index={0}
+                  onChange={inputTarget}
+                  min={0}
+                />
+                <div className="flex justify-between mt-4">
+                  <div>{inputValue}</div>
+                  <div>{1000}</div>
+                </div>
               </div>
             </div>
           </div>
