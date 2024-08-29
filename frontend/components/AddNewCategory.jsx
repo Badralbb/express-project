@@ -1,39 +1,23 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import { Button } from "./ui/button";
-import { Card, CardTitle } from "./ui/card";
-import { Label } from "./ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "./ui/select";
 import { Input } from "./ui/input";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "./ui/dialog";
 import {
-  AirVent,
   BookA,
   ChartBarIncreasing,
   Check,
   ChevronDown,
   ChevronRight,
-  Eye,
   House,
   HousePlus,
-  Icon,
   ImageIcon,
   Leaf,
   LoaderPinwheel,
@@ -49,9 +33,7 @@ import {
 } from "lucide-react";
 import { PopoverTrigger } from "@radix-ui/react-popover";
 import { Popover, PopoverContent } from "./ui/popover";
-import { set } from "date-fns";
 import { Slider } from "./ui/slider";
-import { DeleteAllCategories } from "./DeleteAllCategories";
 const icons = [
   { name: "home", Icon: House },
   { name: "house", Icon: HousePlus },
@@ -67,7 +49,7 @@ const icons = [
   { name: "orderedlist", Icon: BookA },
   { name: "trees", Icon: Leaf },
   { name: "five", Icon: Tally5 },
-  { name: "round7", Icon: LoaderPinwheel }
+  { name: "round7", Icon: LoaderPinwheel },
 ];
 const colors = [
   { value: `#0166FF`, name: "blue" },
@@ -89,7 +71,7 @@ export const AddNewCategory = () => {
   const [open, setOpen] = useState(false);
   const [categories, setCategories] = useState([]);
   const [value, setValue] = useState("");
-  const [loading,setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const loadlist = async () => {
     const response = await fetch(`http://localhost:4000/categories`);
     const data = await response.json();
@@ -99,7 +81,7 @@ export const AddNewCategory = () => {
     loadlist();
   }, []);
   const createNewCategory = async () => {
-    setLoading(true)
+    setLoading(true);
     if (value) {
       await fetch(`http://localhost:4000/categories`, {
         method: "POST",
@@ -113,9 +95,9 @@ export const AddNewCategory = () => {
         },
       });
       loadlist();
-      setLoading(false)
-      setOpen(false)
-      setValue('')
+      setLoading(false);
+      setOpen(false);
+      setValue("");
     }
   };
   const handleChange = (event) => {
@@ -132,12 +114,12 @@ export const AddNewCategory = () => {
     }
   };
 
-  const handleDelete = () => {
-    DeleteAllCategories().then(() => {
-      loadlist();
+  const DeleteAllCategories = async () => {
+    await fetch(`http://localhost:4000/categories`, {
+      method: "DELETE",
     });
-  }
-
+    loadlist();
+  };
   const [typeValue, setTypeValue] = useState("all");
   return (
     <div className="max-w-[1200px] w-full mx-auto">
@@ -184,7 +166,7 @@ export const AddNewCategory = () => {
         <div>
           <div className="text-[#1F2937] flex justify-between mb-5">
             <div>Category</div>
-            <Button onClick={handleDelete}>clear</Button>
+            <Button onClick={DeleteAllCategories}>clear</Button>
           </div>
           <div className="flex flex-col gap-2">
             {categories.map((item) => (
@@ -308,7 +290,8 @@ export const AddNewCategory = () => {
           </DialogHeader>
 
           <DialogFooter>
-            <Button disabled={loading}
+            <Button
+              disabled={loading}
               onClick={createNewCategory}
               className="w-full bg-[#16A34A] mt-4 hover:bg-[#16A34A]"
             >
