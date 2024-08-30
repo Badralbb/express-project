@@ -147,16 +147,18 @@ export const AddNewCategory = () => {
           <Input
             className="bg-[#D1D5DB]"
             value={search}
-            onChange={(event)=>setSearch(event.target.value)}
+            onChange={(event) => setSearch(event.target.value)}
             type="text"
             placeholder="search"
           />
           <div className="absolute left-0 right-0 top-8 px-4 bg-white">
-            {categories.filter(category=>category.name === search).map((category) => (
-              <div className="border-b-2 py-4 cursor-pointer">
-                {category.name}
-              </div>
-            ))}
+            {categories
+              .filter((category) => category.name === search)
+              .map((category) => (
+                <div className="border-b-2 py-4 cursor-pointer">
+                  {category.name}
+                </div>
+              ))}
           </div>
         </div>
         <div className="text-[#1F2937] text-base">
@@ -183,7 +185,7 @@ export const AddNewCategory = () => {
           <div className="flex flex-col gap-2">
             {categories.map((item) => (
               <div className="text-black flex justify-between" key={item.id}>
-                <div className="flex gap-1">
+                <div className="flex gap-1 cursor-pointer">
                   <div>
                     <CategoryIcon
                       categoryIcon={item.icon}
@@ -193,7 +195,7 @@ export const AddNewCategory = () => {
 
                   <div>{item.name}</div>
                 </div>
-                <div>
+                <div className="cursor-pointer">
                   <ChevronRight />
                 </div>
               </div>
