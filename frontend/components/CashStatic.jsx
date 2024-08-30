@@ -1,5 +1,6 @@
 import { ArrowDown, ArrowUp } from "lucide-react";
 import { HeaderNav } from "./HeaderNav";
+import Image from "next/image";
 
 export const CashStatic = () => {
   return (
@@ -7,7 +8,15 @@ export const CashStatic = () => {
       <HeaderNav />
       <div className="flex flex-col gap-6 mt-8">
         <div className="flex gap-6">
-          <div className="max-w-[384px] w-full rounded-xl h-[216px] bg-blue-600"></div>
+          <div className="max-w-[384px] relative w-full overflow-hidden rounded-xl h-[216px] bg-blue-600">
+            <Image
+              width={500}
+              height={500}
+              className="w-full"
+              src={"/images/Noise.png"}
+            />
+            <div className="w-[180px] h-[90px] rounded-full bg-slate-500 right-0 bottom-0"></div>
+          </div>
           <div className="max-w-[384px] w-full rounded-xl bg-[#FFFFFF]">
             <div className="border-b-2 px-6">
               <div className="py-4 flex gap-2 items-center">
