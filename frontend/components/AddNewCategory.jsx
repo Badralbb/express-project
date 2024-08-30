@@ -33,7 +33,6 @@ import {
 } from "lucide-react";
 import { PopoverTrigger } from "@radix-ui/react-popover";
 import { Popover, PopoverContent } from "./ui/popover";
-import { Slider } from "./ui/slider";
 import { PlusSvg } from "./Plus";
 const icons = [
   { name: "home", Icon: House },
@@ -129,7 +128,7 @@ export const AddNewCategory = () => {
     setInputValue(newValue);
   };
   const [search, setSearch] = useState("");
-
+  const [update, setUpdate] = useState(false);
   return (
     <div className="max-w-[1200px] w-full mx-auto">
       <div className="flex bg-[#F9FAFB] flex-col gap-6 max-w-[282px] px-4">
@@ -155,7 +154,10 @@ export const AddNewCategory = () => {
           <div className="absolute left-0 right-0 top-11 px-4 bg-white">
             {categories.map((category) =>
               category.name.includes(search) ? (
-                <div className="border-b-2 py-4 cursor-pointer">
+                <div
+                  key={category.id}
+                  className="border-b-2 py-4 cursor-pointer"
+                >
                   {category.name}
                 </div>
               ) : (
@@ -198,15 +200,28 @@ export const AddNewCategory = () => {
 
                   <div>{item.name}</div>
                 </div>
-                <div className="cursor-pointer">
-                  <ChevronRight />
+                <div
+                  className="cursor-pointer flex flex-col items-end"
+                  
+                >
+                  <ChevronRight onClick={()=>setUpdate(true)} className={`${update ? 'hidden' : 'block'}`} />
+                  <ChevronDown onClick={()=>setUpdate(false)} className={`${update ? 'block' : 'hidden'}`}/>
+                  {update && (
+                    <div className="flex gap-1">
+                      <Button>edit</Button>
+                      <Button>delete</Button>
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
-            <div className="flex items-center gap-1 cursor-pointer">
+            <div
+              onClick={() => setOpen(true)}
+              className="flex items-center gap-1 cursor-pointer"
+            >
               <PlusSvg color={"#0166FF"} />
 
-              <div onClick={() => setOpen(true)}>Add Category</div>
+              <div>Add Category</div>
             </div>
             <div className="flex flex-col gap-4 mt-4">
               <div>Amount Range</div>
