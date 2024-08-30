@@ -122,11 +122,10 @@ export const AddNewCategory = () => {
     loadlist();
   };
   const [typeValue, setTypeValue] = useState("all");
-  const [inputValue, setInputValue] = useState([0]);
+  const [inputValue, setInputValue] = useState(0);
   const inputTarget = (event) => {
-    const newValue = [...value];
+    const newValue = Number(event.target.value);
 
-    newValue[event.target.dataset.index] = Number(event.target.value);
     setInputValue(newValue);
   };
 
@@ -204,7 +203,6 @@ export const AddNewCategory = () => {
                   type="range"
                   value={inputValue}
                   max={1000}
-                  data-index={0}
                   onChange={inputTarget}
                   min={0}
                 />
