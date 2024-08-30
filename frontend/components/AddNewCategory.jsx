@@ -128,7 +128,10 @@ export const AddNewCategory = () => {
 
     setInputValue(newValue);
   };
-
+  const [search, setSearch] = useState("");
+  function handleSearch() {
+    setSearch(true);
+  }
   return (
     <div className="max-w-[1200px] w-full mx-auto">
       <div className="flex bg-[#F9FAFB] flex-col gap-6 max-w-[282px] px-4">
@@ -140,9 +143,21 @@ export const AddNewCategory = () => {
           <PlusSvg color={"#FFFFFF"} />
           <div>AddNew</div>
         </Button>
-
-        <div>
-          <Input className="bg-[#D1D5DB]" type="text" placeholder="search" />
+        <div className="relative">
+          <Input
+            className="bg-[#D1D5DB]"
+            value={search}
+            onChange={(event)=>setSearch(event.target.value)}
+            type="text"
+            placeholder="search"
+          />
+          <div className="absolute left-0 right-0 top-8 px-4 bg-white">
+            {categories.filter(category=>category.name === search).map((category) => (
+              <div className="border-b-2 py-4 cursor-pointer">
+                {category.name}
+              </div>
+            ))}
+          </div>
         </div>
         <div className="text-[#1F2937] text-base">
           <div>Types</div>
