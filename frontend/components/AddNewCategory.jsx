@@ -10,61 +10,14 @@ import {
   DialogHeader,
   DialogTitle,
 } from "./ui/dialog";
-import {
-  BookA,
-  ChartBarIncreasing,
-  Check,
-  ChevronDown,
-  ChevronRight,
-  House,
-  HousePlus,
-  ImageIcon,
-  Leaf,
-  LoaderPinwheel,
-  Mic,
-  NotebookPen,
-  NotepadTextDashed,
-  PictureInPicture2,
-  Table,
-  Tally5,
-  UserPen,
-  X,
-  ZoomIn,
-} from "lucide-react";
+import { Check, ChevronDown, ChevronRight, X } from "lucide-react";
 import { PopoverTrigger } from "@radix-ui/react-popover";
 import { Popover, PopoverContent } from "./ui/popover";
 import { PlusSvg } from "./Plus";
-const icons = [
-  { name: "home", Icon: House },
-  { name: "house", Icon: HousePlus },
-  { name: "profile", Icon: UserPen },
-  { name: "note", Icon: NotebookPen },
-  { name: "stairs", Icon: ChartBarIncreasing },
-  { name: "window", Icon: PictureInPicture2 },
-  { name: "image", Icon: ImageIcon },
-  { name: "zoom", Icon: ZoomIn },
-  { name: "audio", Icon: Mic },
-  { name: "tables", Icon: Table },
-  { name: "notetaking", Icon: NotepadTextDashed },
-  { name: "orderedlist", Icon: BookA },
-  { name: "trees", Icon: Leaf },
-  { name: "five", Icon: Tally5 },
-  { name: "round7", Icon: LoaderPinwheel },
-];
-const colors = [
-  { value: `#0166FF`, name: "blue" },
-  { value: `#01B3FF`, name: "sky" },
-  { value: `#41CC00`, name: "green" },
-  { value: `#F9D100`, name: "yellow" },
-  { value: `#FF7B01`, name: "orange" },
-  { value: `#AE01FF`, name: "purple" },
-  { value: `#FF0101`, name: "red" },
-];
-const types = [
-  { name: "all", value: "all" },
-  { name: "Income", value: "Income" },
-  { name: "Expense", value: "Expense" },
-];
+import { toast } from "sonner";
+import { Toaster } from "./ui/sonner";
+import { colors, icons, types } from "@/app/datas/data";
+
 export const AddNewCategory = () => {
   const [iconsName, setIconsName] = useState("home");
   const [checkColor, setCheckColor] = useState("blue");
@@ -80,6 +33,10 @@ export const AddNewCategory = () => {
   useEffect(() => {
     loadlist();
   }, []);
+  const reset = () => {
+    setIconsName("home");
+    setCheckColor("blue");
+  };
   const createNewCategory = async () => {
     setLoading(true);
     if (value) {
@@ -95,9 +52,32 @@ export const AddNewCategory = () => {
         },
       });
       loadlist();
+      toast("Successfully created.");
       setLoading(false);
       setOpen(false);
       setValue("");
+    }
+  };
+  const updateCategory = async () => {
+    if (value) {
+      setLoading(true);
+      await fetch(`http://localhost:4000/categories/${editingCategory.id}`, {
+        method: "PUT",
+        body: JSON.stringify({
+          updatedName: value,
+          color: checkColor,
+          icon: iconsName,
+        }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+      loadlist();
+      toast("Successfully updated.");
+      setLoading(false);
+      setOpen(false);
+      setValue("");
+      reset();
     }
   };
   const handleChange = (event) => {
@@ -113,7 +93,12 @@ export const AddNewCategory = () => {
       setValue("");
     }
   };
-
+  const DeleteOneCategory = async (id) => {
+    await fetch(`http://localhost:4000/categories/${id}`, {
+      method: "DELETE",
+    });
+    loadlist();
+  };
   const DeleteAllCategories = async () => {
     await fetch(`http://localhost:4000/categories`, {
       method: "DELETE",
@@ -129,10 +114,20 @@ export const AddNewCategory = () => {
   };
   const [search, setSearch] = useState("");
   const [update, setUpdate] = useState(false);
+  const [editingCategory, setEditingCategory] = useState();
+  useEffect(() => {
+    if (editingCategory) {
+      setValue(editingCategory.name);
+      setIconsName(editingCategory.icon);
+      setCheckColor(editingCategory.color);
+      setOpen(true);
+    }
+  }, [editingCategory]);
   return (
     <div className="max-w-[1200px] w-full mx-auto">
       <div className="flex bg-[#F9FAFB] flex-col gap-6 max-w-[282px] px-4">
         <div className="text-[#000000] text-2xl">Records</div>
+        <Toaster />
         <Button
           onClick={() => setOpen(true)}
           className="flex  gap-1 text-white hover:bg-[#0166FF] bg-[#0166FF] items-center rounded-3xl"
@@ -152,7 +147,7 @@ export const AddNewCategory = () => {
           />
 
           <div className="absolute left-0 right-0 top-11 px-4 bg-white">
-            {categories.map((category) =>
+            {/* {categories.map((category) =>
               category.name.includes(search) ? (
                 <div
                   key={category.id}
@@ -163,7 +158,7 @@ export const AddNewCategory = () => {
               ) : (
                 ""
               )
-            )}
+            )} */}
           </div>
         </div>
         <div className="text-[#1F2937] text-base">
@@ -200,16 +195,23 @@ export const AddNewCategory = () => {
 
                   <div>{item.name}</div>
                 </div>
-                <div
-                  className="cursor-pointer flex flex-col items-end"
-                  
-                >
-                  <ChevronRight onClick={()=>setUpdate(true)} className={`${update ? 'hidden' : 'block'}`} />
-                  <ChevronDown onClick={()=>setUpdate(false)} className={`${update ? 'block' : 'hidden'}`}/>
+                <div className="cursor-pointer flex flex-col items-end">
+                  <ChevronRight
+                    onClick={() => setUpdate(true)}
+                    className={`${update ? "hidden" : "block"}`}
+                  />
+                  <ChevronDown
+                    onClick={() => setUpdate(false)}
+                    className={`${update ? "block" : "hidden"}`}
+                  />
                   {update && (
                     <div className="flex gap-1">
-                      <Button>edit</Button>
-                      <Button>delete</Button>
+                      <Button onClick={() => setEditingCategory(item)}>
+                        edit
+                      </Button>
+                      <Button onClick={() => DeleteOneCategory(item.id)}>
+                        delete
+                      </Button>
                     </div>
                   )}
                 </div>
@@ -267,10 +269,10 @@ export const AddNewCategory = () => {
               <Popover>
                 <PopoverTrigger asChild>
                   <Button variant="outline" className="w-[84px] flex gap-1">
-                    {icons.map(
-                      (icon) =>
-                        icon.name == iconsName && <icon.Icon key={icon.name} />
-                    )}
+                    <CategoryIcon
+                      categoryIcon={iconsName}
+                      IconColor={checkColor}
+                    />
                     <ChevronDown />
                   </Button>
                 </PopoverTrigger>
@@ -315,13 +317,23 @@ export const AddNewCategory = () => {
           </DialogHeader>
 
           <DialogFooter>
-            <Button
-              disabled={loading}
-              onClick={createNewCategory}
-              className="w-full bg-[#16A34A] mt-4 hover:bg-[#16A34A]"
-            >
-              Add
-            </Button>
+            {editingCategory ? (
+              <Button
+                disabled={loading}
+                onClick={updateCategory}
+                className="w-full bg-[#16A34A] mt-4 hover:bg-[#16A34A]"
+              >
+                edit
+              </Button>
+            ) : (
+              <Button
+                disabled={loading}
+                onClick={createNewCategory}
+                className="w-full bg-[#16A34A] mt-4 hover:bg-[#16A34A]"
+              >
+                Add
+              </Button>
+            )}
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -331,13 +343,8 @@ export const AddNewCategory = () => {
 
 function CategoryIcon({ categoryIcon, IconColor }) {
   const iconObject = icons.find((item) => item.name === categoryIcon);
-  console.log(IconColor);
-  console.log(colors);
-
   const colorObject = colors.find((item) => item.name === IconColor);
-  console.log(colorObject);
-
-  if (!iconObject) return <null />;
+  if (!iconObject) return null;
   let hexColor;
   if (!colorObject) {
     hexColor = "#000";
