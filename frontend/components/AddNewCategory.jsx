@@ -262,7 +262,7 @@ export const AddNewCategory = () => {
       </div>
 
       <Dialog open={open}>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="p-6 sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle className="flex justify-between mb-2">
               <div className="text-[#0F172A]">Add Category</div>

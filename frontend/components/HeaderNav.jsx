@@ -47,31 +47,15 @@ export const HeaderNav = () => {
         </Avatar>
       </div>
       <Dialog open={record}>
-        <DialogContent className="sm:max-w-[425px]">
-          <div className="flex justify-between items-center">
-            <DialogTitle>Edit profile</DialogTitle>
+        <DialogContent className="max-w-[792px] w-full">
+          <div className="flex justify-between items-center text-[#0F172A] border-b-2 p-4">
+            <DialogTitle>Add Record</DialogTitle>
             <X className="cursor-pointer" onClick={() => setRecord(false)} />
           </div>
-
-          <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Input
-                id="name"
-                defaultValue="Pedro Duarte"
-                className="col-span-3"
-              />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Input
-                id="username"
-                defaultValue="@peduarte"
-                className="col-span-3"
-              />
-            </div>
+          <div className="flex ">
+            <div></div>
+            <div></div>
           </div>
-          <DialogFooter>
-            <Button type="submit">Save changes</Button>
-          </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>
