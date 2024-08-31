@@ -1,8 +1,22 @@
+"use client";
+
 import Image from "next/image";
 import { Button } from "./ui/button";
 import { Avatar, AvatarImage } from "./ui/avatar";
+import { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "./ui/dialog";
+import { Input } from "./ui/input";
+import { X } from "lucide-react";
 
 export const HeaderNav = () => {
+  const [record, setRecord] = useState(false);
   return (
     <div className="max-w-[1200px] w-full mx-auto flex justify-between items-center py-4">
       <div className="flex gap-6 items-center">
@@ -12,8 +26,8 @@ export const HeaderNav = () => {
         <div>Dashboard</div>
         <div>Records</div>
       </div>
-      <div className="flex gap-6">
-        <Button className="flex gap-1 bg-[#0166FF] items-center rounded-3xl">
+      <div className="flex gap-6" onClick={() => setRecord(true)}>
+        <Button className="flex gap-1 bg-[#0166FF] items-center rounded-3xl hover:bg-blue-700">
           <svg
             width="16"
             height="16"
@@ -29,9 +43,37 @@ export const HeaderNav = () => {
           <div>Record</div>
         </Button>
         <Avatar>
-        <AvatarImage src="https://github.com/shadcn.png" />
+          <AvatarImage src="https://github.com/shadcn.png" />
         </Avatar>
       </div>
+      <Dialog open={record}>
+        <DialogContent className="sm:max-w-[425px]">
+          <div className="flex justify-between items-center">
+            <DialogTitle>Edit profile</DialogTitle>
+            <X className="cursor-pointer" onClick={() => setRecord(false)} />
+          </div>
+
+          <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Input
+                id="name"
+                defaultValue="Pedro Duarte"
+                className="col-span-3"
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Input
+                id="username"
+                defaultValue="@peduarte"
+                className="col-span-3"
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button type="submit">Save changes</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
