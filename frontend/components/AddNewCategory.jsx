@@ -34,8 +34,10 @@ export const AddNewCategory = () => {
     loadlist();
   }, []);
   const reset = () => {
+    setValue("");
     setIconsName("home");
     setCheckColor("blue");
+    setEditingCategory(null);
   };
   const createNewCategory = async () => {
     setLoading(true);
@@ -54,7 +56,7 @@ export const AddNewCategory = () => {
       loadlist();
       toast("Successfully created.");
       setLoading(false);
-      setOpen(false);
+      closedDialog();
       setValue("");
     }
   };
@@ -75,9 +77,8 @@ export const AddNewCategory = () => {
       loadlist();
       toast("Successfully updated.");
       setLoading(false);
-      setOpen(false);
       setValue("");
-      reset();
+      closedDialog();
     }
   };
   const handleChange = (event) => {
@@ -109,7 +110,6 @@ export const AddNewCategory = () => {
   const [inputValue, setInputValue] = useState(0);
   const inputTarget = (event) => {
     const newValue = Number(event.target.value);
-
     setInputValue(newValue);
   };
   const [search, setSearch] = useState("");
@@ -123,13 +123,21 @@ export const AddNewCategory = () => {
       setOpen(true);
     }
   }, [editingCategory]);
+  function closedDialog() {
+    setOpen(false);
+    reset();
+  }
+
   return (
     <div className="max-w-[1200px] w-full mx-auto">
       <div className="flex bg-[#F9FAFB] flex-col gap-6 max-w-[282px] px-4">
         <div className="text-[#000000] text-2xl">Records</div>
         <Toaster />
         <Button
-          onClick={() => setOpen(true)}
+          onClick={() => {
+            reset();
+            setOpen(true);
+          }}
           className="flex  gap-1 text-white hover:bg-[#0166FF] bg-[#0166FF] items-center rounded-3xl"
         >
           <PlusSvg color={"#FFFFFF"} />
@@ -261,7 +269,7 @@ export const AddNewCategory = () => {
               <div>
                 <X
                   className="w-6 h-6 hover:cursor-pointer"
-                  onClick={() => setOpen(false)}
+                  onClick={closedDialog}
                 />
               </div>
             </DialogTitle>
