@@ -35,8 +35,9 @@ const getTransaction = async (req, res) => {
   res.json(transaction);
 };
 const postTransaction = async (req, res) => {
+  const {amount , categoryId, amountType, payee , note} = req.body
   const id = uuidv4();
-  await sql`insert to ${id}`
+  await sql`insert to transaction values(${id},${amount},${categoryId},${amountType},current_date,${payee},${note})`
 };
 module.exports = {
   postCategory,

@@ -6,6 +6,7 @@ const {
   deleteCategoires,
   deleteAllCategoires,
   getTransaction,
+  postTransaction,
 } = require("./controller/control");
 const app = startApp();
 app.get("/categories", getCategories);
