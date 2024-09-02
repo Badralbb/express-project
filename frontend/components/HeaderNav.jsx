@@ -52,9 +52,32 @@ export const HeaderNav = () => {
             <DialogTitle>Add Record</DialogTitle>
             <X className="cursor-pointer" onClick={() => setRecord(false)} />
           </div>
-          <div className="flex ">
-            <div></div>
-            <div></div>
+          <div className="flex pt-5">
+            <div className="flex-1 px-6 flex flex-col gap-5">
+              <div className="flex bg-[#F3F4F6] rounded-full max-w-[348px] w-full">
+                <div className="bg-[#0166FF] px-4 py-2 rounded-3xl flex-1 text-center">
+                  Expense
+                </div>
+                <div className="py-2 rounded-3xl flex-1 text-center">
+                  Income
+                </div>
+              </div>
+              <div className="flex flex-col">
+                <div className="bg-[#D1D5DB] px-4 py-3 gap-[22px] rounded-lg">
+                  <div>Amount</div>
+                  <div className="flex gap-2">
+                    <div>₮</div>
+                    <div className="text-[#9CA3AF]">000.00</div>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <div>Category</div>
+                  <div></div>
+                </div>
+                <div></div>
+              </div>
+            </div>
+            <div className="flex-1"></div>
           </div>
         </DialogContent>
       </Dialog>
