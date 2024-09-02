@@ -111,8 +111,11 @@ export const HeaderNav = () => {
               </div>
 
               <Button
+                onClick={createNewTransaction}
                 className={`${
-                  amountType === "Expense" ? "bg-[#0166FF]" : "bg-[#16A34A]"
+                  amountType === "Expense"
+                    ? "bg-[#0166FF] hover:bg-blue-900"
+                    : "bg-[#16A34A] hover:bg-green-800"
                 } mt-8 flex-1 rounded-3xl`}
               >
                 Add Record
@@ -133,7 +136,6 @@ export const HeaderNav = () => {
                 <div>Note</div>
 
                 <Textarea className="bg-[#D1D5DB]" placeholder="Write here" />
-
               </div>
             </div>
           </div>
@@ -141,4 +143,45 @@ export const HeaderNav = () => {
       </Dialog>
     </div>
   );
+};
+export const CategoriesList = () => {
+  const [transactions, setTransactions] = useState([]);
+  const loadTransactionList = async () => {
+    const response = await fetch("http://localhost:4000/transactions");
+    const data = await response.json();
+    setTransactions(data);
+  };
+  useEffect(() => {
+    loadTransactionList();
+  }, []);
+
+  return (
+    <div>
+      {transactions.map((transaction) => (
+        <div key={transaction.name} className="flex justify-between">
+          <div className="flex gap-2">
+            <div className="flex flex-col">
+              <div>{transaction.name}</div>
+              <div>{transaction.date}</div>
+            </div>
+            <div>{transaction.icon}</div>
+          </div>
+          <div>{transaction.amount}</div>
+        </div>
+      ))}
+    </div>
+  );
+};
+export const createNewTransaction = async () => {
+  await fetch(`http://localhost:4000/categories`, {
+    method: "POST",
+    body: JSON.stringify({
+      name: value,
+      color: checkColor,
+      icon: iconsName,
+    }),
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+    },
+  });
 };

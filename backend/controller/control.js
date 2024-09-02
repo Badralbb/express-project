@@ -38,7 +38,15 @@ const postTransaction = async (req, res) => {
   const {amount , categoryId, amountType, payee , note} = req.body
   const id = uuidv4();
   await sql`insert to transaction values(${id},${amount},${categoryId},${amountType},current_date,${payee},${note})`
+  res.status(201).json(["Success"])
 };
+
+const putTransactions = async (req,res)=>{
+  const {id} = req.params
+  const {amount,categoryIcon,updatedName} = req.body
+ 
+  res.status(202).send("Success")
+}
 module.exports = {
   postCategory,
   getCategories,
