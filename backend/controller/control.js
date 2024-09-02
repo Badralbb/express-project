@@ -23,14 +23,27 @@ const deleteCategoires = async (req, res) => {
   await sql`delete from category where id = ${id}`;
   res.status(204).send("Success");
 };
-const deleteAllCategoires = async(req,res)=>{
-  await sql`delete from category *`
-  res.status(204).send("Success")
-}
+const deleteAllCategoires = async (req, res) => {
+  await sql`delete from category *`;
+  res.status(204).send("Success");
+};
+
+const getTransaction = async (req, res) => {
+  const transaction =
+    await sql`select transaction.amount,transaction.type,category.name,category.icon,transaction.date from transaction left join category on
+  transaction.categoryId = category.id`;
+  res.json(transaction);
+};
+const postTransaction = async (req, res) => {
+  const id = uuidv4();
+  await sql`insert to ${id}`
+};
 module.exports = {
   postCategory,
   getCategories,
   putCategories,
   deleteCategoires,
-  deleteAllCategoires
+  deleteAllCategoires,
+  getTransaction,
+  postTransaction,
 };

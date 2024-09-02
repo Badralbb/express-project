@@ -1,4 +1,5 @@
 import { AddNewCategory } from "@/components/AddNewCategory";
+import { CategoriesList } from "@/components/CategoriesList";
 import { HeaderNav } from "@/components/HeaderNav";
 import { PieDonut } from "@/components/PieDonut";
 

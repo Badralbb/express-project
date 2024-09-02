@@ -17,6 +17,8 @@ import { PlusSvg } from "./Plus";
 import { toast } from "sonner";
 import { Toaster } from "./ui/sonner";
 import { colors, icons, types } from "@/app/datas/data";
+import { CategoriesList } from "./CategoriesList";
+import { CategoryIcon } from "./CategoryIcon";
 
 export const AddNewCategory = () => {
   const [iconsName, setIconsName] = useState("home");
@@ -129,8 +131,8 @@ export const AddNewCategory = () => {
   }
 
   return (
-    <div className="max-w-[1200px] w-full mx-auto">
-      <div className="flex bg-[#F9FAFB] flex-col gap-6 max-w-[282px] px-4">
+    <div className="max-w-[1200px] w-full mx-auto flex gap-6">
+      <div className="flex bg-[#F9FAFB] flex-col gap-6 max-w-[282px] w-full  px-4">
         <div className="text-[#000000] text-2xl">Records</div>
         <Toaster />
         <Button
@@ -345,20 +347,9 @@ export const AddNewCategory = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+      <CategoriesList />
     </div>
   );
 };
 
-function CategoryIcon({ categoryIcon, IconColor }) {
-  const iconObject = icons.find((item) => item.name === categoryIcon);
-  const colorObject = colors.find((item) => item.name === IconColor);
-  if (!iconObject) return null;
-  let hexColor;
-  if (!colorObject) {
-    hexColor = "#000";
-  } else {
-    hexColor = colorObject.value;
-  }
-  const { Icon } = iconObject;
-  return <Icon style={{ color: hexColor }} />;
-}
+
