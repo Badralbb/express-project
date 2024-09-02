@@ -13,10 +13,12 @@ import {
   DialogTitle,
 } from "./ui/dialog";
 import { Input } from "./ui/input";
-import { X } from "lucide-react";
+import { ChevronDown, X } from "lucide-react";
+import { Textarea } from "./ui/textarea";
 
 export const HeaderNav = () => {
   const [record, setRecord] = useState(false);
+  const [amountType, setAmountType] = useState("Expense");
   return (
     <div className="max-w-[1200px] w-full mx-auto flex justify-between items-center py-4">
       <div className="flex gap-6 items-center">
@@ -52,32 +54,88 @@ export const HeaderNav = () => {
             <DialogTitle>Add Record</DialogTitle>
             <X className="cursor-pointer" onClick={() => setRecord(false)} />
           </div>
-          <div className="flex pt-5">
+          <div className="flex pt-5 pb-6">
             <div className="flex-1 px-6 flex flex-col gap-5">
               <div className="flex bg-[#F3F4F6] rounded-full max-w-[348px] w-full">
-                <div className="bg-[#0166FF] px-4 py-2 rounded-3xl flex-1 text-center">
+                <div
+                  onClick={() => setAmountType("Expense")}
+                  className={` ${
+                    amountType === "Expense" && "bg-[#0166FF]"
+                  } px-4 py-2 rounded-3xl flex-1 text-center cursor-pointer`}
+                >
                   Expense
                 </div>
-                <div className="py-2 rounded-3xl flex-1 text-center">
+                <div
+                  onClick={() => setAmountType("Income")}
+                  className={`py-2 rounded-3xl flex-1 text-center cursor-pointer ${
+                    amountType === "Income" && "bg-[#16A34A]"
+                  }`}
+                >
                   Income
                 </div>
               </div>
-              <div className="flex flex-col">
-                <div className="bg-[#D1D5DB] px-4 py-3 gap-[22px] rounded-lg">
+              <div className="flex flex-col gap-[22px]">
+                <div className="bg-[#D1D5DB] px-4 py-3 rounded-lg">
                   <div>Amount</div>
-                  <div className="flex gap-2">
-                    <div>₮</div>
-                    <div className="text-[#9CA3AF]">000.00</div>
+                  <div className="flex gap-2 text-[#9CA3AF] items-center">
+                    <Input className="bg-[#D1D5DB]" placeholder={"₮ 000.00"} />
                   </div>
                 </div>
                 <div className="flex flex-col gap-2">
                   <div>Category</div>
-                  <div></div>
+                  <div className="bg-[#D1D5DB] flex p-3 rounded-lg">
+                    <div className="flex-1 text-[#9CA3AF]">
+                      {amountType === "Expense"
+                        ? "choose"
+                        : "Find or choose category"}
+                    </div>
+                    <ChevronDown className="w-6 h-6" />
+                  </div>
                 </div>
-                <div></div>
+                <div className="flex gap-3">
+                  <div className="flex-1 flex flex-col gap-2">
+                    <div>Date</div>
+                    <div className="flex bg-[#D1D5DB] px-4 py-3 rounded-lg">
+                      <div className="flex-1">Date</div>
+                      <ChevronDown className="w-6 h-6" />
+                    </div>
+                  </div>
+                  <div className="flex-1 flex flex-col gap-2">
+                    <div>Date</div>
+                    <div className="flex bg-[#D1D5DB] px-4 py-3 rounded-lg">
+                      <div className="flex-1">Date</div>
+                      <ChevronDown className="w-6 h-6" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <Button
+                className={`${
+                  amountType === "Expense" ? "bg-[#0166FF]" : "bg-[#16A34A]"
+                } mt-8 flex-1 rounded-3xl`}
+              >
+                Add Record
+              </Button>
+            </div>
+            <div className="flex-1 px-6 flex flex-col gap-[22px]">
+              <div className="flex flex-col gap-2">
+                <div>Payee</div>
+                <div className="flex bg-[#D1D5DB] px-4 py-3 rounded-lg items-center">
+                  <Input
+                    className="flex-1 bg-[#D1D5DB]"
+                    placeholder={"Write here"}
+                  />
+                  <ChevronDown />
+                </div>
+              </div>
+              <div className="flex flex-col gap-2 flex-1">
+                <div>Note</div>
+
+                <Textarea className="bg-[#D1D5DB]" placeholder="Write here" />
+
               </div>
             </div>
-            <div className="flex-1"></div>
           </div>
         </DialogContent>
       </Dialog>

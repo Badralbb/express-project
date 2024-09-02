@@ -8,6 +8,7 @@ export default function Home() {
       <HeaderNav />
       <div className="bg-slate-300">
         <AddNewCategory />
+        
       </div>
     </main>
   );
