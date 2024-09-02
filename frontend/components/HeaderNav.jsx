@@ -19,6 +19,12 @@ import { Textarea } from "./ui/textarea";
 export const HeaderNav = () => {
   const [record, setRecord] = useState(false);
   const [amountType, setAmountType] = useState("Expense");
+  const handleAction = async () => {
+    const value = "New Value"; // Replace with actual value
+    const checkColor = "New Color"; // Replace with actual color
+    const iconsName = "New Icon"; // Replace with actual icon name
+    await createNewTransaction(value, checkColor, iconsName);
+  };
   return (
     <div className="max-w-[1200px] w-full mx-auto flex justify-between items-center py-4">
       <div className="flex gap-6 items-center">
@@ -111,7 +117,7 @@ export const HeaderNav = () => {
               </div>
 
               <Button
-                onClick={createNewTransaction}
+                onClick={handleAction}
                 className={`${
                   amountType === "Expense"
                     ? "bg-[#0166FF] hover:bg-blue-900"
@@ -172,7 +178,7 @@ export const CategoriesList = () => {
     </div>
   );
 };
-export const createNewTransaction = async () => {
+ export const createNewTransaction = async () => {
   await fetch(`http://localhost:4000/categories`, {
     method: "POST",
     body: JSON.stringify({
@@ -184,4 +190,6 @@ export const createNewTransaction = async () => {
       "Content-type": "application/json; charset=UTF-8",
     },
   });
+
+
 };
