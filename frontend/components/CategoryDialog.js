@@ -25,14 +25,14 @@ export const CategoryDialog = ({
   onClose,
   onComplete,
   editingCategory,
-  editingCategoryFunction
+  editingCategoryFunction,
 }) => {
   const [iconsName, setIconsName] = useState("home");
   const [checkColor, setCheckColor] = useState("blue");
 
   const [value, setValue] = useState("");
   const [loading, setLoading] = useState(false);
-    console.log({editingCategory})
+  console.log({ editingCategory });
   useEffect(() => {
     onComplete();
   }, []);
@@ -43,13 +43,13 @@ export const CategoryDialog = ({
     editingCategoryFunction(null);
   };
 
-  useEffect(()=>{
-    if(editingCategory){
+  useEffect(() => {
+    if (editingCategory) {
       setIconsName(editingCategory.icon);
       setCheckColor(editingCategory.color);
-      setValue(editingCategory.name)
+      setValue(editingCategory.name);
     }
-  },[editingCategory])
+  }, [editingCategory]);
   const createNewCategory = async () => {
     setLoading(true);
     if (value) {
@@ -70,7 +70,6 @@ export const CategoryDialog = ({
       closedDialog();
     }
   };
-  
 
   const handleChange = (event) => {
     setValue(event.target.value);
