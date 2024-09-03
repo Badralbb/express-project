@@ -20,7 +20,7 @@ import { colors, icons, types } from "@/app/datas/data";
 
 import { CategoryIcon } from "./CategoryIcon";
 
-export const CategoryDialog = ({ open, onClose, onComplete }) => {
+export const CategoryDialog = ({ open, onClose, onComplete,editingCategory }) => {
   const [iconsName, setIconsName] = useState("home");
   const [checkColor, setCheckColor] = useState("blue");
 
@@ -141,13 +141,24 @@ export const CategoryDialog = ({ open, onClose, onComplete }) => {
         </DialogHeader>
 
         <DialogFooter>
-          <Button
+          {editingCategory ? 
+
+            <Button
             disabled={loading}
             onClick={createNewCategory}
             className="w-full bg-[#16A34A] mt-4 hover:bg-[#16A34A]"
-          >
+            >
             Add
-          </Button>
+          </Button> : 
+           <Button
+           disabled={loading}
+           onClick={updateCategory}
+           className="w-full bg-[#16A34A] mt-4 hover:bg-[#16A34A]"
+           >
+           Edit
+         </Button>
+          }
+
         </DialogFooter>
       </DialogContent>
     </Dialog>

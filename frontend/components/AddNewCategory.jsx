@@ -47,7 +47,7 @@ export const AddNewCategory = () => {
   };
   const [search, setSearch] = useState("");
   const [update, setUpdate] = useState(false);
-
+  const [editingCategory,setEditingCategory] = useState()
   return (
     <div className="max-w-[1200px] w-full mx-auto flex gap-6">
       <div className="flex bg-[#F9FAFB] flex-col gap-6 max-w-[282px] w-full  px-4">
@@ -148,6 +148,7 @@ export const AddNewCategory = () => {
               open={open}
               onClose={() => setOpen(false)}
               onComplete={loadlist}
+              editingCategory={editingCategory}
             />
             <div
               onClick={() => setOpen(true)}
