@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { Button } from "./ui/button";
 import { Avatar, AvatarImage } from "./ui/avatar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -19,12 +19,7 @@ import { Textarea } from "./ui/textarea";
 export const HeaderNav = () => {
   const [record, setRecord] = useState(false);
   const [amountType, setAmountType] = useState("Expense");
-  const handleAction = async () => {
-    const value = "New Value"; // Replace with actual value
-    const checkColor = "New Color"; // Replace with actual color
-    const iconsName = "New Icon"; // Replace with actual icon name
-    await createNewTransaction(value, checkColor, iconsName);
-  };
+
   return (
     <div className="max-w-[1200px] w-full mx-auto flex justify-between items-center py-4">
       <div className="flex gap-6 items-center">
@@ -117,7 +112,6 @@ export const HeaderNav = () => {
               </div>
 
               <Button
-                onClick={handleAction}
                 className={`${
                   amountType === "Expense"
                     ? "bg-[#0166FF] hover:bg-blue-900"
@@ -149,45 +143,4 @@ export const HeaderNav = () => {
       </Dialog>
     </div>
   );
-};
-export const CategoriesList = () => {
-  const [transactions, setTransactions] = useState([]);
-  const loadTransactionList = async () => {
-    const response = await fetch("http://localhost:4000/transactions");
-    const data = await response.json();
-    setTransactions(data);
-  };
-  useEffect(() => {
-    loadTransactionList();
-  }, []);
-
-  return (
-    <div>
-      {transactions.map((transaction) => (
-        <div key={transaction.name} className="flex justify-between">
-          <div className="flex gap-2">
-            <div className="flex flex-col">
-              <div>{transaction.name}</div>
-              <div>{transaction.date}</div>
-            </div>
-            <div>{transaction.icon}</div>
-          </div>
-          <div>{transaction.amount}</div>
-        </div>
-      ))}
-    </div>
-  );
-};
-export const createNewTransaction = async () => {
-  await fetch(`http://localhost:4000/categories`, {
-    method: "POST",
-    body: JSON.stringify({
-      name: value,
-      color: checkColor,
-      icon: iconsName,
-    }),
-    headers: {
-      "Content-type": "application/json; charset=UTF-8",
-    },
-  });
 };
