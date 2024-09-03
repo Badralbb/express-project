@@ -178,7 +178,7 @@ export const CategoriesList = () => {
     </div>
   );
 };
- export const createNewTransaction = async () => {
+export const createNewTransaction = async () => {
   await fetch(`http://localhost:4000/categories`, {
     method: "POST",
     body: JSON.stringify({
@@ -190,6 +190,4 @@ export const CategoriesList = () => {
       "Content-type": "application/json; charset=UTF-8",
     },
   });
-
-
 };
