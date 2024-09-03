@@ -5,7 +5,8 @@ import { Checkbox } from "./ui/checkbox";
 import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 import { RecordDialog } from "./RecordDialog";
 
-export const CategoriesList = ({categoryId}) => {
+export const CategoriesList = ({categories}) => {
+  
   const [amountType, setAmountType] = useState("Expense");
 
   const [transactions, setTransactions] = useState([]);
@@ -35,6 +36,7 @@ export const CategoriesList = ({categoryId}) => {
         onComplete={createNewTransaction}
         amountType={amountType}
         setAmountType={() => setAmountType("Expense")}
+        categories={categories}
       />
       <div className="flex justify-between">
         <div className="flex gap-4 items-center">

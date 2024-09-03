@@ -7,17 +7,27 @@ import {
   DialogTitle,
 } from "./ui/dialog";
 import { Input } from "./ui/input";
-import { ChevronDown, X } from "lucide-react";
+import { ChevronDown, ChevronRight, X } from "lucide-react";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
-export const RecordDialog = ({ onComplete, amountType, setAmountType }) => {
+import { CategoryIcon } from "./CategoryIcon";
+export const RecordDialog = ({
+  onComplete,
+  amountType,
+  setAmountType,
+  categories,
+}) => {
   const searchParams = useSearchParams();
   const create = searchParams.get("create");
   const record = create === "new";
   const router = useRouter();
   const [showCategories, setShowCategories] = useState(false);
+  if (!categories) {
+    return;
+  }
+  console.log({ categories });
   return (
     <Dialog open={record}>
       <DialogContent className="max-w-[792px] w-full">
@@ -55,21 +65,34 @@ export const RecordDialog = ({ onComplete, amountType, setAmountType }) => {
               <div className="flex flex-col gap-2">
                 <div>Category</div>
                 <div className="bg-[#D1D5DB] flex p-3 rounded-lg relative">
-                  <div
-                    onClick={() => setShowCategories(true)}
-                    className="flex-1 text-[#9CA3AF]"
-                  >
+                  <div className="flex-1 text-[#9CA3AF]">
                     {amountType === "Expense"
                       ? "choose"
                       : "Find or choose category"}
                   </div>
-                  <ChevronDown className="w-6 h-6" />
+                  <ChevronRight
+                    onClick={() => setShowCategories(true)}
+                    className={`w-6 h-6 cursor-pointer ${showCategories ? 'hidden' : 'block'}`}
+                  />
+                  <ChevronDown
+                    onClick={() => setShowCategories(false)}
+                    className={`w-6 h-6 cursor-pointer ${showCategories ? 'block' : 'hidden'}`}
+                  />
                   {showCategories && (
-                    <div className="absolute flex flex-col">
-                      <div className="p-4">+ Add Category</div>
-                      {<div className="p-4 flex gap-3">
-                        
-                        </div>}
+                    <div className="absolute flex flex-col cursor-pointer left-0 right-0 top-12">
+                      <div className="p-4 bg-[#FFFFFF]">+ Add Category</div>
+                      {categories.map((category) => (
+                        <div
+                          key={category.id}
+                          className="p-4 bg-[#FFFFFF] flex gap-3 border-t-2"
+                        >
+                          <CategoryIcon
+                            categoryIcon={category.icon}
+                            IconColor={category.color}
+                          />
+                          <div>{category.name}</div>
+                        </div>
+                      ))}
                     </div>
                   )}
                 </div>

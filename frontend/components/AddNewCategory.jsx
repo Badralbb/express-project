@@ -192,7 +192,7 @@ export const AddNewCategory = () => {
         </div>
       </div>
 
-      <CategoriesList/>
+      <CategoriesList categories={categories} />
     </div>
   );
 };
