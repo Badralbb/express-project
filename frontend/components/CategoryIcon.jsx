@@ -12,4 +12,4 @@ export function CategoryIcon({ categoryIcon, IconColor }) {
     }
     const { Icon } = iconObject;
     return <Icon style={{ color: hexColor }} />;
-  }
+  }       
