@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <main>
       <HeaderNav />
-      <div className="bg-slate-300">
+      <div className="bg-slate-300 py-6 rounded-lg">
         <AddNewCategory />
         
       </div>
