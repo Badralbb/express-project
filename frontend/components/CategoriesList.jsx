@@ -3,8 +3,11 @@
 import { useEffect, useState } from "react";
 import { Checkbox } from "./ui/checkbox";
 import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
+import { RecordDialog } from "./RecordDialog";
 
-export const CategoriesList = () => {
+export const CategoriesList = ({categoryId}) => {
+  const [amountType, setAmountType] = useState("Expense");
+
   const [transactions, setTransactions] = useState([]);
   const loadTransactionList = async () => {
     const response = await fetch("http://localhost:4000/transactions");
@@ -15,12 +18,10 @@ export const CategoriesList = () => {
     loadTransactionList();
   }, []);
   const createNewTransaction = async () => {
-    await fetch(`http://localhost:4000/categories`, {
+    await fetch(`http://localhost:4000/transactions`, {
       method: "POST",
       body: JSON.stringify({
-        name: value,
-        color: checkColor,
-        icon: iconsName,
+        amount: amountType,
       }),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
@@ -30,6 +31,11 @@ export const CategoriesList = () => {
   };
   return (
     <div className="mt-6 max-w-[894px] w-full flex flex-col gap-6">
+      <RecordDialog
+        onComplete={createNewTransaction}
+        amountType={amountType}
+        setAmountType={() => setAmountType("Expense")}
+      />
       <div className="flex justify-between">
         <div className="flex gap-4 items-center">
           <div className="bg-[#E5E7EB] p-1 rounded-lg">

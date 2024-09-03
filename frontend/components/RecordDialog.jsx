@@ -12,19 +12,18 @@ import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
-export const RecordDialog = () => {
-    const [amountType,setAmountType] = useState('Expense')
-    const searchParams = useSearchParams()
-    const create = searchParams.get('create')
-    const record = create === 'new'
-    const router = useRouter();
+export const RecordDialog = ({ onComplete, amountType, setAmountType }) => {
+  const searchParams = useSearchParams();
+  const create = searchParams.get("create");
+  const record = create === "new";
+  const router = useRouter();
+  const [showCategories, setShowCategories] = useState(false);
   return (
-    
     <Dialog open={record}>
       <DialogContent className="max-w-[792px] w-full">
         <div className="flex justify-between items-center text-[#0F172A] border-b-2 p-4">
           <DialogTitle>Add Record</DialogTitle>
-          <X className="cursor-pointer"  onClick={()=>router.push(`?`)}/>
+          <X className="cursor-pointer" onClick={() => router.push(`?`)} />
         </div>
         <div className="flex pt-5 pb-6">
           <div className="flex-1 px-6 flex flex-col gap-5">
@@ -55,13 +54,24 @@ export const RecordDialog = () => {
               </div>
               <div className="flex flex-col gap-2">
                 <div>Category</div>
-                <div className="bg-[#D1D5DB] flex p-3 rounded-lg">
-                  <div className="flex-1 text-[#9CA3AF]">
+                <div className="bg-[#D1D5DB] flex p-3 rounded-lg relative">
+                  <div
+                    onClick={() => setShowCategories(true)}
+                    className="flex-1 text-[#9CA3AF]"
+                  >
                     {amountType === "Expense"
                       ? "choose"
                       : "Find or choose category"}
                   </div>
                   <ChevronDown className="w-6 h-6" />
+                  {showCategories && (
+                    <div className="absolute flex flex-col">
+                      <div className="p-4">+ Add Category</div>
+                      {<div className="p-4 flex gap-3">
+                        
+                        </div>}
+                    </div>
+                  )}
                 </div>
               </div>
               <div className="flex gap-3">
@@ -83,6 +93,7 @@ export const RecordDialog = () => {
             </div>
 
             <Button
+              onClick={onComplete}
               className={`${
                 amountType === "Expense"
                   ? "bg-[#0166FF] hover:bg-blue-900"

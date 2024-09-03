@@ -47,7 +47,7 @@ export const AddNewCategory = () => {
   };
   const [search, setSearch] = useState("");
   const [update, setUpdate] = useState(false);
-  const [editingCategory,setEditingCategory] = useState()
+  const [editingCategory, setEditingCategory] = useState(null);
   return (
     <div className="max-w-[1200px] w-full mx-auto flex gap-6">
       <div className="flex bg-[#F9FAFB] flex-col gap-6 max-w-[282px] w-full  px-4">
@@ -133,7 +133,12 @@ export const AddNewCategory = () => {
                   />
                   {update && (
                     <div className="flex gap-1">
-                      <Button onClick={() => setEditingCategory(item)}>
+                      <Button
+                        onClick={() => {
+                          setEditingCategory(item);
+                          setOpen(true);
+                        }}
+                      >
                         edit
                       </Button>
                       <Button onClick={() => DeleteOneCategory(item.id)}>
@@ -148,6 +153,7 @@ export const AddNewCategory = () => {
               open={open}
               onClose={() => setOpen(false)}
               onComplete={loadlist}
+              editingCategoryFunction={() => setEditingCategory(null)}
               editingCategory={editingCategory}
             />
             <div
@@ -186,7 +192,7 @@ export const AddNewCategory = () => {
         </div>
       </div>
 
-      <CategoriesList />
+      <CategoriesList/>
     </div>
   );
 };
