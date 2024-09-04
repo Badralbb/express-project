@@ -14,7 +14,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-export function SelectDate() {
+export function SelectDate({Date}) {
   const [date, setDate] = useState();
 
   return (
@@ -37,6 +37,8 @@ export function SelectDate() {
           selected={date}
           onSelect={setDate}
           initialFocus
+          onChange={()=>setDate(date)}
+          value={Date}
         />
         <ChevronDown className="w-6 h-6" />
       </PopoverContent>
