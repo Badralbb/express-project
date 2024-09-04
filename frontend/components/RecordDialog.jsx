@@ -21,6 +21,8 @@ import {
   SelectLabel,
   SelectTrigger,
 } from "./ui/select";
+import { SelectDate } from "./SelectDate";
+import { TImeSetter } from "./Timesetter";
 export const RecordDialog = ({
   onComplete,
   amountType,
@@ -80,7 +82,7 @@ export const RecordDialog = ({
                 <div>Category</div>
 
                 <Select>
-                  <SelectTrigger className="w-full bg-[#D1D5DB]">
+                  <SelectTrigger className="bg-[#D1D5DB]">
                     <div>
                       {amountType === "Expense"
                         ? "choose"
@@ -102,7 +104,7 @@ export const RecordDialog = ({
 
                       {categories.map((category) => (
                         <SelectItem key={category.id}>
-                          <div className="p-4 bg-[#FFFFFF] flex gap-3 cursor-pointer border-t-2">
+                          <div className="p-4 bg-[#FFFFFF] flex gap-3 cursor-pointer ">
                             <CategoryIcon
                               categoryIcon={category.icon}
                               IconColor={category.color}
@@ -118,17 +120,12 @@ export const RecordDialog = ({
               <div className="flex gap-3">
                 <div className="flex-1 flex flex-col gap-2">
                   <div>Date</div>
-                  <div className="flex bg-[#D1D5DB] px-4 py-3 rounded-lg">
-                    <div className="flex-1">Date</div>
-                    <ChevronDown className="w-6 h-6" />
-                  </div>
+                  <SelectDate />
                 </div>
                 <div className="flex-1 flex flex-col gap-2">
                   <div>Date</div>
-                  <div className="flex bg-[#D1D5DB] px-4 py-3 rounded-lg">
-                    <div className="flex-1">Date</div>
-                    <ChevronDown className="w-6 h-6" />
-                  </div>
+
+                  <Input className="cursor-pointer bg-[#D1D5DB]" aria-label="Time" type="time" step="1" min="00:00" max="12:00" value="00:00"/>
                 </div>
               </div>
             </div>
