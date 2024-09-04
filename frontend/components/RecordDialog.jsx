@@ -11,11 +11,16 @@ import { ChevronDown, ChevronRight, X } from "lucide-react";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
 import { CategoryIcon } from "./CategoryIcon";
-import { CategoryDialog } from "./CategoryDialog";
-import { ScrollAreaViewport } from "@radix-ui/react-scroll-area";
-import { ScrollArea } from "./ui/scroll-area";
+
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+} from "./ui/select";
 export const RecordDialog = ({
   onComplete,
   amountType,
@@ -26,12 +31,12 @@ export const RecordDialog = ({
   const create = searchParams.get("create");
   const record = create === "new";
   const router = useRouter();
-  const [showCategories, setShowCategories] = useState(false);
 
   if (!categories) {
     return;
   }
-  console.log({ categories });
+  console.log("amountType", amountType);
+
   return (
     <Dialog open={record}>
       <DialogContent className="max-w-[792px] w-full">
@@ -41,7 +46,6 @@ export const RecordDialog = ({
             className="cursor-pointer"
             onClick={() => {
               router.push(`?`);
-              setShowCategories(false);
             }}
           />
         </div>
@@ -74,51 +78,42 @@ export const RecordDialog = ({
               </div>
               <div className="flex flex-col gap-2">
                 <div>Category</div>
-                <div className="bg-[#D1D5DB] flex p-3 rounded-lg relative">
-                  <div className="flex-1 text-[#9CA3AF]">
-                    {amountType === "Expense"
-                      ? "choose"
-                      : "Find or choose category"}
-                  </div>
-                  <ChevronRight
-                    onClick={() => setShowCategories(true)}
-                    className={`w-6 h-6 cursor-pointer ${
-                      showCategories ? "hidden" : "block"
-                    }`}
-                  />
-                  <ChevronDown
-                    onClick={() => setShowCategories(false)}
-                    className={`w-6 h-6 cursor-pointer ${
-                      showCategories ? "block" : "hidden"
-                    }`}
-                  />
 
-                  {showCategories && (
-                    <div className="absolute flex flex-col cursor-pointer left-0 right-0 top-12">
-                      <div
-                        onClick={() => {
-                          router.push(`?createCategory=new`);
-                        }}
-                        className="p-4 bg-[#FFFFFF]"
-                      >
-                        + Add Category
-                      </div>
+                <Select>
+                  <SelectTrigger className="w-full bg-[#D1D5DB]">
+                    <div>
+                      {amountType === "Expense"
+                        ? "choose"
+                        : "Find or choose category"}
+                    </div>
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>
+                        <div
+                          onClick={() => {
+                            router.push(`?createCategory=new`);
+                          }}
+                          className="p-4 bg-[#FFFFFF] cursor-pointer"
+                        >
+                          + Add Category
+                        </div>
+                      </SelectLabel>
 
                       {categories.map((category) => (
-                        <div
-                          key={category.id}
-                          className="p-4 bg-[#FFFFFF] flex gap-3 border-t-2 overflow-y-scroll"
-                        >
-                          <CategoryIcon
-                            categoryIcon={category.icon}
-                            IconColor={category.color}
-                          />
-                          <div>{category.name}</div>
-                        </div>
+                        <SelectItem key={category.id}>
+                          <div className="p-4 bg-[#FFFFFF] flex gap-3 cursor-pointer border-t-2">
+                            <CategoryIcon
+                              categoryIcon={category.icon}
+                              IconColor={category.color}
+                            />
+                            <div>{category.name}</div>
+                          </div>
+                        </SelectItem>
                       ))}
-                    </div>
-                  )}
-                </div>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
               </div>
               <div className="flex gap-3">
                 <div className="flex-1 flex flex-col gap-2">

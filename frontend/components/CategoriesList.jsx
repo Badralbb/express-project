@@ -5,8 +5,7 @@ import { Checkbox } from "./ui/checkbox";
 import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 import { RecordDialog } from "./RecordDialog";
 
-export const CategoriesList = ({categories}) => {
-  
+export const CategoriesList = ({ categories }) => {
   const [amountType, setAmountType] = useState("Expense");
 
   const [transactions, setTransactions] = useState([]);
@@ -35,7 +34,7 @@ export const CategoriesList = ({categories}) => {
       <RecordDialog
         onComplete={createNewTransaction}
         amountType={amountType}
-        setAmountType={() => setAmountType("Expense")}
+        setAmountType={setAmountType}
         categories={categories}
       />
       <div className="flex justify-between">

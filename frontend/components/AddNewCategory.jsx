@@ -14,6 +14,7 @@ import { CategoriesList } from "./CategoriesList";
 import { CategoryIcon } from "./CategoryIcon";
 import { CategoryDialog } from "./CategoryDialog";
 
+
 export const AddNewCategory = () => {
   const [open, setOpen] = useState(false);
   const [categories, setCategories] = useState([]);
