@@ -23,9 +23,21 @@ import {
 } from "./ui/select";
 import { SelectDate } from "./SelectDate";
 import { TImeSetter } from "./Timesetter";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Value } from "@radix-ui/react-select";
-export const RecordDialog = ({ amountType, setAmountType, categories }) => {
+export const RecordDialog = ({
+  amountType,
+  setAmountType,
+  categories,
+  onComplete,
+}) => {
+  async function getOneCategory(id) {
+    const response = await fetch(`http://localhost:4000/categories/${id}`);
+    const data = await response.json();
+    setOneCategory(data);
+    console.log({ data });
+  }
+  const [oneCategory, setOneCategory] = useState();
   const searchParams = useSearchParams();
   const create = searchParams.get("create");
   const record = create === "new";
@@ -38,19 +50,23 @@ export const RecordDialog = ({ amountType, setAmountType, categories }) => {
   if (!categories) {
     return;
   }
-  console.log("amountType", amountType);
+
   const createNewTransaction = async () => {
-    await fetch(`http://localhost:4000/categories`, {
+    console.log("bafgdsa");
+    await fetch(`http://localhost:4000/transactions`, {
       method: "POST",
       body: JSON.stringify({
-        name: value,
-        color: checkColor,
-        icon: iconsName,
+        amount: amountValue,
+        amountType: amountType,
+        payee: payee,
+        categoryId: oneCategory[0].id,
+        note: note,
       }),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
     });
+    onComplete();
   };
 
   return (
@@ -104,11 +120,25 @@ export const RecordDialog = ({ amountType, setAmountType, categories }) => {
 
                 <Select>
                   <SelectTrigger className="bg-[#D1D5DB]">
-                    <div>
-                      {amountType === "Expense"
-                        ? "choose"
-                        : "Find or choose category"}
-                    </div>
+                    {!oneCategory ? (
+                      <div>
+                        {amountType === "Expense" ? (
+                          <>choose</>
+                        ) : (
+                          <>fsaklfjasdjgkl</>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="flex gap-2 items-center">
+                        <div>
+                          <CategoryIcon
+                            categoryIcon={oneCategory[0].icon}
+                            IconColor={oneCategory[0].color}
+                          />
+                        </div>
+                        <div>{oneCategory[0].name}</div>
+                      </div>
+                    )}
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
@@ -124,15 +154,20 @@ export const RecordDialog = ({ amountType, setAmountType, categories }) => {
                       </SelectLabel>
 
                       {categories.map((category) => (
-                        <SelectItem key={category.id}>
-                          <div className="p-4 bg-[#FFFFFF] flex gap-3 cursor-pointer ">
-                            <CategoryIcon
-                              categoryIcon={category.icon}
-                              IconColor={category.color}
-                            />
-                            <div>{category.name}</div>
-                          </div>
-                        </SelectItem>
+                        <div key={category.id}>
+                          <>
+                            <div
+                              onClick={() => getOneCategory(category.id)}
+                              className="p-4 bg-[#FFFFFF] flex gap-3 cursor-pointer "
+                            >
+                              <CategoryIcon
+                                categoryIcon={category.icon}
+                                IconColor={category.color}
+                              />
+                              <div>{category.name}</div>
+                            </div>
+                          </>
+                        </div>
                       ))}
                     </SelectGroup>
                   </SelectContent>
@@ -159,7 +194,10 @@ export const RecordDialog = ({ amountType, setAmountType, categories }) => {
             </div>
 
             <Button
-              onClick={() => {}}
+              onClick={() => {
+                createNewTransaction();
+                router.push(`?`);
+              }}
               className={`${
                 amountType === "Expense"
                   ? "bg-[#0166FF] hover:bg-blue-900"

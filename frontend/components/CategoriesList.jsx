@@ -17,22 +17,11 @@ export const CategoriesList = ({ categories }) => {
   useEffect(() => {
     loadTransactionList();
   }, []);
-  const createNewTransaction = async () => {
-    await fetch(`http://localhost:4000/transactions`, {
-      method: "POST",
-      body: JSON.stringify({
-        amount: amountType,
-      }),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
-    });
-    loadTransactionList();
-  };
+
   return (
     <div className="mt-6 max-w-[894px] w-full flex flex-col gap-6">
       <RecordDialog
-        onComplete={createNewTransaction}
+        onComplete={loadTransactionList}
         amountType={amountType}
         setAmountType={setAmountType}
         categories={categories}

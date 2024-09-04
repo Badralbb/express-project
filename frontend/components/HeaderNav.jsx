@@ -32,7 +32,6 @@ export const HeaderNav = () => {
         <Avatar>
           <AvatarImage src="https://github.com/shadcn.png" />
         </Avatar>
-        <RecordDialog />
       </div>
     </div>
   );
