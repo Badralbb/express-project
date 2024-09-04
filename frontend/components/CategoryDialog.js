@@ -19,6 +19,7 @@ import { toast } from "sonner";
 import { colors, icons, types } from "@/app/datas/data";
 
 import { CategoryIcon } from "./CategoryIcon";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export const CategoryDialog = ({
   open,
@@ -29,10 +30,13 @@ export const CategoryDialog = ({
 }) => {
   const [iconsName, setIconsName] = useState("home");
   const [checkColor, setCheckColor] = useState("blue");
-
+  const searchParams = useSearchParams()
+  const createCategory = searchParams.get(`createCategory`)
+  const createCategoryOpen =  createCategory === `new`
   const [value, setValue] = useState("");
   const [loading, setLoading] = useState(false);
   console.log({ editingCategory });
+  const router = useRouter()
   useEffect(() => {
     onComplete();
   }, []);
@@ -91,7 +95,7 @@ export const CategoryDialog = ({
   }
 
   return (
-    <Dialog open={open}>
+    <Dialog open={open || createCategoryOpen}>
       <DialogContent className="p-6 sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle className="flex justify-between mb-2">
@@ -99,7 +103,7 @@ export const CategoryDialog = ({
             <div>
               <X
                 className="w-6 h-6 hover:cursor-pointer"
-                onClick={closedDialog}
+                onClick={()=>{closedDialog;router.push(`?`)}}
               />
             </div>
           </DialogTitle>
@@ -165,7 +169,7 @@ export const CategoryDialog = ({
           ) : (
             <Button
               disabled={loading}
-              onClick={createNewCategory}
+              onClick={()=>{createNewCategory;router.push(`?`)}}
               className="w-full bg-[#16A34A] mt-4 hover:bg-[#16A34A]"
             >
               Add

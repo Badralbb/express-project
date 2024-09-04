@@ -13,6 +13,9 @@ import { Button } from "./ui/button";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { CategoryIcon } from "./CategoryIcon";
+import { CategoryDialog } from "./CategoryDialog";
+import { ScrollAreaViewport } from "@radix-ui/react-scroll-area";
+import { ScrollArea } from "./ui/scroll-area";
 export const RecordDialog = ({
   onComplete,
   amountType,
@@ -24,6 +27,7 @@ export const RecordDialog = ({
   const record = create === "new";
   const router = useRouter();
   const [showCategories, setShowCategories] = useState(false);
+
   if (!categories) {
     return;
   }
@@ -33,7 +37,13 @@ export const RecordDialog = ({
       <DialogContent className="max-w-[792px] w-full">
         <div className="flex justify-between items-center text-[#0F172A] border-b-2 p-4">
           <DialogTitle>Add Record</DialogTitle>
-          <X className="cursor-pointer" onClick={() => router.push(`?`)} />
+          <X
+            className="cursor-pointer"
+            onClick={() => {
+              router.push(`?`);
+              setShowCategories(false);
+            }}
+          />
         </div>
         <div className="flex pt-5 pb-6">
           <div className="flex-1 px-6 flex flex-col gap-5">
@@ -72,19 +82,32 @@ export const RecordDialog = ({
                   </div>
                   <ChevronRight
                     onClick={() => setShowCategories(true)}
-                    className={`w-6 h-6 cursor-pointer ${showCategories ? 'hidden' : 'block'}`}
+                    className={`w-6 h-6 cursor-pointer ${
+                      showCategories ? "hidden" : "block"
+                    }`}
                   />
                   <ChevronDown
                     onClick={() => setShowCategories(false)}
-                    className={`w-6 h-6 cursor-pointer ${showCategories ? 'block' : 'hidden'}`}
+                    className={`w-6 h-6 cursor-pointer ${
+                      showCategories ? "block" : "hidden"
+                    }`}
                   />
+
                   {showCategories && (
                     <div className="absolute flex flex-col cursor-pointer left-0 right-0 top-12">
-                      <div className="p-4 bg-[#FFFFFF]">+ Add Category</div>
+                      <div
+                        onClick={() => {
+                          router.push(`?createCategory=new`);
+                        }}
+                        className="p-4 bg-[#FFFFFF]"
+                      >
+                        + Add Category
+                      </div>
+
                       {categories.map((category) => (
                         <div
                           key={category.id}
-                          className="p-4 bg-[#FFFFFF] flex gap-3 border-t-2"
+                          className="p-4 bg-[#FFFFFF] flex gap-3 border-t-2 overflow-y-scroll"
                         >
                           <CategoryIcon
                             categoryIcon={category.icon}
