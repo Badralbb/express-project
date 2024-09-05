@@ -30,23 +30,24 @@ const deleteAllCategoires = async (req, res) => {
 
 const getTransaction = async (req, res) => {
   const transaction =
-    await sql`select transaction.amount,transaction.type,category.name,category.icon,transaction.time,category.color from transaction left join category on
+    await sql`select transaction.checked,transaction.amount,transaction.type,category.name,transaction.id,category.icon,transaction.time,category.color from transaction left join category on
   transaction.categoryId = category.id`;
   res.json(transaction);
 };
 const postTransaction = async (req, res) => {
-  const { amount, categoryId, amountType, payee, note, time } = req.body;
+  const { amount, categoryId, amountType, payee, note, time, checked } =
+    req.body;
   const id = uuidv4();
-  await sql`insert into transaction values(${id},${amount},${categoryId},${amountType},current_date,${payee},${note},${time})`;
+  await sql`insert into transaction values(${id},${amount},${categoryId},${amountType},current_date,${payee},${note},${time},${checked})`;
   res.status(201).json(["Success"]);
 };
 
-// const putTransactions = async (req, res) => {
-//   const { id } = req.params;
-//   const { value } = req.body;
-//   await sql`update transaction set value=${value} where id=${id}`
-//   res.status(202).send("Success");
-// };
+const putTransactions = async (req, res) => {
+  const { id } = req.params;
+  const { checked } = req.body;
+  await sql`update transaction set checked=${checked} where id=${id}`;
+  res.status(202).send("Success");
+};
 const getOneCategory = async (req, res) => {
   const { id } = req.params;
   const category = await sql`select * from category where id=${id}`;
@@ -61,4 +62,5 @@ module.exports = {
   getTransaction,
   postTransaction,
   getOneCategory,
+  putTransactions,
 };

@@ -21,4 +21,4 @@ app.get("/categories/:id", getOneCategory);
 app.get("/transactions", getTransaction);
 
 app.post("/transactions", postTransaction);
-
+app.put("/transactions/:id", putTransactions);
