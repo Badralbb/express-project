@@ -14,7 +14,7 @@ import { RecordDialog } from "./RecordDialog";
 import { CategoryIcon } from "./CategoryIcon";
 import { Value } from "@radix-ui/react-select";
 
-export const CategoriesList = ({ categories }) => {
+export const CategoriesList = ({ categories,typeValue }) => {
   const [amountType, setAmountType] = useState("Expense");
 
   const [transactions, setTransactions] = useState([]);
@@ -58,9 +58,10 @@ export const CategoriesList = ({ categories }) => {
           </div>
         </div>
         {transactions.map((transaction) => (
+          (typeValue === transaction.type || typeValue === "all") && 
           <div
             key={transaction.name}
-            className="flex justify-between px-6 py-3 bg-[#ffffff] rounded-lg"
+            className="flex justify-between px-6 py-3 bg-[#ffffff] rounded-lg shadow"
           >
             <div className="flex gap-2 items-center">
               <div>

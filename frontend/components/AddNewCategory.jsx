@@ -51,7 +51,7 @@ export const AddNewCategory = () => {
   const [editingCategory, setEditingCategory] = useState(null);
   return (
     <div className="max-w-[1200px] w-full mx-auto flex gap-6">
-      <div className="flex bg-[#F9FAFB] flex-col gap-6 max-w-[282px] w-full  px-4">
+      <div className="flex bg-[#F9FAFB] flex-col gap-6 max-w-[282px] w-full  px-4 rounded-xl shadow py-5">
         <div className="text-[#000000] text-2xl">Records</div>
         <Toaster />
         <Button
@@ -193,7 +193,7 @@ export const AddNewCategory = () => {
         </div>
       </div>
 
-      <CategoriesList categories={categories} />
+      <CategoriesList categories={categories} typeValue={typeValue}/>
     </div>
   );
 };
