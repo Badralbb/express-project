@@ -8,6 +8,7 @@ const {
   getTransaction,
   postTransaction,
   getOneCategory,
+  putTransactions,
 } = require("./controller/control");
 const app = startApp();
 app.get("/categories", getCategories);
@@ -20,3 +21,4 @@ app.get("/categories/:id", getOneCategory);
 app.get("/transactions", getTransaction);
 
 app.post("/transactions", postTransaction);
+

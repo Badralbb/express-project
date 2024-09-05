@@ -169,7 +169,7 @@ export const CategoryDialog = ({
           ) : (
             <Button
               disabled={loading}
-              onClick={()=>{createNewCategory;}}
+              onClick={()=>{createNewCategory();router.push(`?`)}}
               className="w-full bg-[#16A34A] mt-4 hover:bg-[#16A34A]"
             >
               Add

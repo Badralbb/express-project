@@ -45,22 +45,23 @@ export const RecordDialog = ({
   const [payee, setPayee] = useState("");
   const [amountValue, setAmountValue] = useState("");
   const [note, setNote] = useState("");
+  const [showCategory, setShowCategory] = useState(false);
   const [date, setDate] = useState("");
-  const [time, setTime] = useState("");
+  const [time, setTime] = useState();
   if (!categories) {
     return;
   }
 
   const createNewTransaction = async () => {
-    console.log("bafgdsa");
     await fetch(`http://localhost:4000/transactions`, {
       method: "POST",
       body: JSON.stringify({
-        amount: amountValue,
-        amountType: amountType,
+        amount: amountValue ? amountValue : "",
+        amountType: amountType ? amountType : "",
         payee: payee,
         categoryId: oneCategory[0].id,
         note: note,
+        time: time,
       }),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
@@ -108,6 +109,7 @@ export const RecordDialog = ({
                   <Input
                     className="bg-[#D1D5DB]"
                     placeholder={"₮ 000.00"}
+                    maxlength={10}
                     onChange={(e) => {
                       setAmountValue(e.target.value.replace(/[^0-9]/g, ""));
                     }}
@@ -157,7 +159,9 @@ export const RecordDialog = ({
                         <div key={category.id}>
                           <>
                             <div
-                              onClick={() => getOneCategory(category.id)}
+                              onClick={() => {
+                                getOneCategory(category.id);
+                              }}
                               className="p-4 bg-[#FFFFFF] flex gap-3 cursor-pointer "
                             >
                               <CategoryIcon
@@ -185,9 +189,10 @@ export const RecordDialog = ({
                     className="cursor-pointer bg-[#D1D5DB] rounded-lg p-2"
                     aria-label="Time"
                     type="time"
-                    step="1"
                     min="00:00"
                     max="12:00"
+                    value={time}
+                    onChange={(e) => setTime(e.target.value)}
                   />
                 </div>
               </div>

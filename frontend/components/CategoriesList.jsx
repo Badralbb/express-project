@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { Checkbox } from "./ui/checkbox";
 import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 import { RecordDialog } from "./RecordDialog";
+import { CategoryIcon } from "./CategoryIcon";
+import { Value } from "@radix-ui/react-select";
 
 export const CategoriesList = ({ categories }) => {
   const [amountType, setAmountType] = useState("Expense");
@@ -17,7 +19,7 @@ export const CategoriesList = ({ categories }) => {
   useEffect(() => {
     loadTransactionList();
   }, []);
-
+  console.log(transactions);
   return (
     <div className="mt-6 max-w-[894px] w-full flex flex-col gap-6">
       <RecordDialog
@@ -46,16 +48,21 @@ export const CategoriesList = ({ categories }) => {
         {transactions.map((transaction) => (
           <div
             key={transaction.name}
-            className="flex justify-between px-6 py-3 bg-[#ffffff] "
+            className="flex justify-between px-6 py-3 bg-[#ffffff] rounded-lg"
           >
             <div className="flex gap-2 items-center">
               <div>
                 <Checkbox />
               </div>
-              <div>{transaction.icon}</div>
+              <div>
+                <CategoryIcon
+                  IconColor={transaction.color}
+                  categoryIcon={transaction.icon}
+                />
+              </div>
               <div className="flex flex-col">
                 <div>{transaction.name}</div>
-                <div>{transaction.date}</div>
+                <div>{transaction.time}</div>
               </div>
             </div>
             <div>{transaction.amount}</div>
