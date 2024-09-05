@@ -20,6 +20,7 @@ import { colors, icons, types } from "@/app/datas/data";
 
 import { CategoryIcon } from "./CategoryIcon";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Toaster } from "./ui/toaster";
 
 export const CategoryDialog = ({
   open,
@@ -30,13 +31,13 @@ export const CategoryDialog = ({
 }) => {
   const [iconsName, setIconsName] = useState("home");
   const [checkColor, setCheckColor] = useState("blue");
-  const searchParams = useSearchParams()
-  const createCategory = searchParams.get(`createCategory`)
-  const createCategoryOpen =  createCategory === `new`
+  const searchParams = useSearchParams();
+  const createCategory = searchParams.get(`createCategory`);
+  const createCategoryOpen = createCategory === `new`;
   const [value, setValue] = useState("");
   const [loading, setLoading] = useState(false);
   console.log({ editingCategory });
-  const router = useRouter()
+  const router = useRouter();
   useEffect(() => {
     onComplete();
   }, []);
@@ -70,9 +71,12 @@ export const CategoryDialog = ({
       });
       onComplete();
       toast("Successfully created.");
-      setLoading(false);
+
       closedDialog();
+    } else {
+      toast("please enter value");
     }
+    setLoading(false);
   };
 
   const handleChange = (event) => {
@@ -96,6 +100,7 @@ export const CategoryDialog = ({
 
   return (
     <Dialog open={open || createCategoryOpen}>
+      <Toaster />
       <DialogContent className="p-6 sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle className="flex justify-between mb-2">
@@ -103,7 +108,10 @@ export const CategoryDialog = ({
             <div>
               <X
                 className="w-6 h-6 hover:cursor-pointer"
-                onClick={()=>{closedDialog;router.push(`?`)}}
+                onClick={() => {
+                  closedDialog();
+                  router.push(`?`);
+                }}
               />
             </div>
           </DialogTitle>
@@ -169,7 +177,10 @@ export const CategoryDialog = ({
           ) : (
             <Button
               disabled={loading}
-              onClick={()=>{createNewCategory();router.push(`?`)}}
+              onClick={() => {
+                createNewCategory();
+                router.push(`?`);
+              }}
               className="w-full bg-[#16A34A] mt-4 hover:bg-[#16A34A]"
             >
               Add

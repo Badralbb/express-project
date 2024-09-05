@@ -2,7 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { Checkbox } from "./ui/checkbox";
-import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  Delete,
+  DeleteIcon,
+  Trash,
+} from "lucide-react";
 import { RecordDialog } from "./RecordDialog";
 import { CategoryIcon } from "./CategoryIcon";
 import { Value } from "@radix-ui/react-select";
@@ -44,7 +51,12 @@ export const CategoriesList = ({ categories }) => {
         </div>
       </div>
       <div className="flex flex-col gap-3">
-        <div>Today</div>
+        <div className="flex gap-5">
+          <div>Today</div>
+          <div className="cursor-pointer">
+            <Trash />
+          </div>
+        </div>
         {transactions.map((transaction) => (
           <div
             key={transaction.name}
@@ -65,7 +77,17 @@ export const CategoriesList = ({ categories }) => {
                 <div>{transaction.time}</div>
               </div>
             </div>
-            <div>{transaction.amount}</div>
+            <div
+              className={`${
+                transaction.type === "Expense"
+                  ? "text-[#F54949]"
+                  : "text-[#23E01F]"
+              }`}
+            >
+              {`${transaction.type === "Expense" ? "- " : "+"}` +
+                "₮ " +
+                transaction.amount}
+            </div>
           </div>
         ))}
       </div>
