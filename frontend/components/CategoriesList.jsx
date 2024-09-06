@@ -32,29 +32,6 @@ export const CategoriesList = ({ categories, typeValue }) => {
     loadTransactionList();
   }, []);
 
-  const transactionsCheckbox = async (id) => {
-    const condition = transactions.find((transaction) => transaction.id === id);
-    console.log(condition.checked);
-    if (condition.checked) {
-      await fetch(`http://localhost:4000/transactions/${id}`, {
-        method: "PUT",
-        body: JSON.stringify({
-          checked: false,
-        }),
-        headers: { "Content-type": "application/json; charset=UTF-8" },
-      });
-      loadTransactionList();
-    } else {
-      await fetch(`http://localhost:4000/transactions/${id}`, {
-        method: "PUT",
-        body: JSON.stringify({
-          checked: true,
-        }),
-        headers: { "Content-type": "application/json; charset=UTF-8" },
-      });
-      loadTransactionList();
-    }
-  };
   return (
     <div className="mt-6 max-w-[894px] w-full flex flex-col gap-6">
       <RecordDialog
@@ -92,11 +69,7 @@ export const CategoriesList = ({ categories, typeValue }) => {
               >
                 <div className="flex gap-2 items-center">
                   <div className="cursor-pointer">
-                    <Input
-                      type="checkbox"
-                      onClick={() => transactionsCheckbox(transaction.id)}
-                      checked={transaction.checked}
-                    />
+                    <Input type="checkbox" />
                   </div>
                   <div>
                     <CategoryIcon

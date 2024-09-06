@@ -8,6 +8,8 @@ import { useEffect, useState } from "react";
 import { PlusSvg } from "./Plus";
 import { RecordDialog } from "./RecordDialog";
 import { useRouter, useSearchParams } from "next/navigation";
+import { UserButton } from "@clerk/nextjs";
+import Link from "next/link";
 
 export const HeaderNav = () => {
   const router = useRouter();
@@ -18,8 +20,10 @@ export const HeaderNav = () => {
         <div>
           <Image src={"/images/Header.svg"} width={40} height={40} />
         </div>
-        <div>Dashboard</div>
-        <div>Records</div>
+        <div>
+          <Link href={"static"}>Dashboard</Link>
+        </div>
+        <Link href={"/"}>Records</Link>
       </div>
       <div className="flex gap-6">
         <Button
@@ -29,11 +33,9 @@ export const HeaderNav = () => {
           <PlusSvg color={"#ffffff"} />
           <div>Record</div>
         </Button>
-        <Avatar>
-          <AvatarImage src="https://github.com/shadcn.png" />
-        </Avatar>
+        <UserButton />
       </div>
-      <RecordDialog />  
+      <RecordDialog />
     </div>
   );
 };

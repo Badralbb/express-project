@@ -62,7 +62,6 @@ export const RecordDialog = ({
         categoryId: oneCategory[0].id,
         note: note,
         time: time,
-        checked: false,
       }),
       headers: {
         "Content-type": "application/json; charset=UTF-8",

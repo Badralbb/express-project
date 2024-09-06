@@ -30,15 +30,14 @@ const deleteAllCategoires = async (req, res) => {
 
 const getTransaction = async (req, res) => {
   const transaction =
-    await sql`select transaction.checked,transaction.amount,transaction.type,category.name,transaction.id,category.icon,transaction.time,category.color from transaction left join category on
+    await sql`select transaction.amount,transaction.type,category.name,transaction.id,category.icon,transaction.time,category.color from transaction left join category on
   transaction.categoryId = category.id`;
   res.json(transaction);
 };
 const postTransaction = async (req, res) => {
-  const { amount, categoryId, amountType, payee, note, time, checked } =
-    req.body;
+  const { amount, categoryId, amountType, payee, note, time } = req.body;
   const id = uuidv4();
-  await sql`insert into transaction values(${id},${amount},${categoryId},${amountType},current_date,${payee},${note},${time},${checked})`;
+  await sql`insert into transaction values(${id},${amount},${categoryId},${amountType},current_date,${payee},${note},${time})`;
   res.status(201).json(["Success"]);
 };
 

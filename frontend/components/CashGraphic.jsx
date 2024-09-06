@@ -107,7 +107,7 @@ const data = [
 
 export function CashGraphic() {
   return (
-    <div className="max-w-[1200px] w-full flex gap-6 mx-auto mt-8">
+    <div className="max-w-[1200px] w-full flex gap-6 mx-auto mt-8 mb-6">
       <div className="flex-1">
         <Card>
           <div className="border-b-2 py-4 px-6">
