@@ -25,6 +25,8 @@ import { SelectDate } from "./SelectDate";
 import { TImeSetter } from "./Timesetter";
 import { useEffect, useState } from "react";
 import { Value } from "@radix-ui/react-select";
+import { toast } from "sonner";
+import { Toaster } from "./ui/toaster";
 export const RecordDialog = ({
   amountType,
   setAmountType,
@@ -42,9 +44,9 @@ export const RecordDialog = ({
   const create = searchParams.get("create");
   const record = create === "new";
   const router = useRouter();
-  const [payee, setPayee] = useState("");
-  const [amountValue, setAmountValue] = useState("");
-  const [note, setNote] = useState("");
+  const [payee, setPayee] = useState();
+  const [amountValue, setAmountValue] = useState();
+  const [note, setNote] = useState();
   const [showCategory, setShowCategory] = useState(false);
   const [date, setDate] = useState("");
   const [time, setTime] = useState();
@@ -53,25 +55,30 @@ export const RecordDialog = ({
   }
 
   const createNewTransaction = async () => {
-    await fetch(`http://localhost:4000/transactions`, {
-      method: "POST",
-      body: JSON.stringify({
-        amount: amountValue ? amountValue : "",
-        amountType: amountType ? amountType : "",
-        payee: payee,
-        categoryId: oneCategory[0].id,
-        note: note,
-        time: time,
-      }),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
-    });
-    onComplete();
+    if (amountValue && oneCategory && time) {
+      await fetch(`http://localhost:4000/transactions`, {
+        method: "POST",
+        body: JSON.stringify({
+          amount: amountValue ? amountValue : "",
+          amountType: amountType ? amountType : "",
+          payee: payee,
+          categoryId: oneCategory ? oneCategory[0].id : "",
+          note: note,
+          time: time,
+        }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+      onComplete();
+    } else {
+      toast("you must have enter amount, category & time");
+    }
   };
 
   return (
     <Dialog open={record}>
+      <Toaster />
       <DialogContent className="max-w-[792px] w-full">
         <div className="flex justify-between items-center text-[#0F172A] border-b-2 p-4">
           <DialogTitle>Add Record</DialogTitle>
