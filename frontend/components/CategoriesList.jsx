@@ -18,20 +18,32 @@ import { Input } from "./ui/input";
 export const CategoriesList = ({ categories, typeValue }) => {
   const [amountType, setAmountType] = useState("Expense");
   const [showTrash, setShowTrash] = useState(false);
-
+  const [count, setCount] = useState(1);
   const [transactions, setTransactions] = useState([]);
   const [checkboxName, setCheckboxName] = useState("");
   const [checkboxValue, setCheckboxValue] = useState([]);
 
   const loadTransactionList = async () => {
-    const response = await fetch("http://localhost:4000/transactions");
+    const response = await fetch(
+      `http://localhost:4000/transactions?date=${count}`
+    );
     const data = await response.json();
     setTransactions(data);
   };
   useEffect(() => {
     loadTransactionList();
-  }, []);
-
+  }, [count]);
+  const countDown = () => {
+    if (count != 1) {
+      setCount(count - 1);
+    }
+  };
+  const countUp = () => {
+    if (count != 30) {
+      setCount(count + 1);
+    }
+  };
+  console.log({ transactions });
   return (
     <div className="mt-6 max-w-[894px] w-full flex flex-col gap-6">
       <RecordDialog
@@ -42,11 +54,17 @@ export const CategoriesList = ({ categories, typeValue }) => {
       />
       <div className="flex justify-between">
         <div className="flex gap-4 items-center">
-          <div className="bg-[#E5E7EB] p-1 rounded-lg">
+          <div
+            onClick={countDown}
+            className="bg-[#E5E7EB] p-1 rounded-lg cursor-pointer"
+          >
             <ChevronLeft />
           </div>
-          <div>Last 30days</div>
-          <div className="bg-[#E5E7EB] p-1 rounded-lg">
+          <div>Last {count} days</div>
+          <div
+            onClick={countUp}
+            className="bg-[#E5E7EB] p-1 rounded-lg cursor-pointer"
+          >
             <ChevronRight />
           </div>
         </div>

@@ -29,11 +29,25 @@ const deleteAllCategoires = async (req, res) => {
 };
 
 const getTransaction = async (req, res) => {
-  const transaction =
-    await sql`select transaction.amount,transaction.type,category.name,transaction.id,category.icon,transaction.time,category.color from transaction left join category on
-  transaction.categoryId = category.id`;
+  const { date } = req.query;
+  const today = new Date();
+  let transaction =
+    await sql`select transaction.date,transaction.amount,transaction.type,category.name,transaction.id,category.icon,transaction.time,category.color from transaction left join category on
+  transaction.categoryId = category.id order by date`;
+  transaction = transaction.filter(
+    (transaction) => today.getDate() - transaction.date.getDate() <= date
+  );
+
   res.json(transaction);
 };
+// const getTransaction = async (req, res) => {
+//   const { date } = req.query;
+//   let transaction = await sql`select * from transaction where true`;
+//   if (date) {
+//     transaction = await `${query} and date = ${date}`;
+//   }
+//   res.json(transaction);
+// };
 const postTransaction = async (req, res) => {
   const input = req.body;
   input.id = uuidv4();

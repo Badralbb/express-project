@@ -36,7 +36,6 @@ export const CategoryDialog = ({
   const createCategoryOpen = createCategory === `new`;
   const [value, setValue] = useState("");
   const [loading, setLoading] = useState(false);
-  console.log({ editingCategory });
   const router = useRouter();
   useEffect(() => {
     onComplete();

@@ -37,7 +37,6 @@ export const RecordDialog = ({
     const response = await fetch(`http://localhost:4000/categories/${id}`);
     const data = await response.json();
     setOneCategory(data);
-    console.log({ data });
   }
   const [oneCategory, setOneCategory] = useState();
   const searchParams = useSearchParams();
@@ -53,18 +52,25 @@ export const RecordDialog = ({
   if (!categories) {
     return;
   }
-
+  const resetAll = () => {
+    setAmountValue("");
+    setDate("");
+    setPayee("");
+    setAmountType("Expense");
+    setNote("");
+  };
   const createNewTransaction = async () => {
     if (amountValue && oneCategory && time) {
       await fetch(`http://localhost:4000/transactions`, {
         method: "POST",
         body: JSON.stringify({
-          amount: amountValue ? amountValue : "",
-          amountType: amountType ? amountType : "",
+          amount: amountValue,
+          type: amountType,
           payee: payee,
-          categoryId: oneCategory ? oneCategory[0].id : "",
           note: note,
           time: time,
+          categoryid: oneCategory[0].id,
+          date: new Date().toISOString(),
         }),
         headers: {
           "Content-type": "application/json; charset=UTF-8",
@@ -86,6 +92,7 @@ export const RecordDialog = ({
             className="cursor-pointer"
             onClick={() => {
               router.push(`?`);
+              resetAll();
             }}
           />
         </div>
@@ -116,7 +123,7 @@ export const RecordDialog = ({
                   <Input
                     className="bg-[#D1D5DB]"
                     placeholder={"₮ 000.00"}
-                    maxlength={10}
+                    maxlength={8}
                     onChange={(e) => {
                       setAmountValue(e.target.value.replace(/[^0-9]/g, ""));
                     }}
@@ -209,6 +216,7 @@ export const RecordDialog = ({
               onClick={() => {
                 createNewTransaction();
                 router.push(`?`);
+                resetAll();
               }}
               className={`${
                 amountType === "Expense"
