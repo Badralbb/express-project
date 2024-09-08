@@ -40,9 +40,11 @@ const getTransaction = async (req, res) => {
       await sql`select transaction.date,transaction.amount,transaction.type,category.name,transaction.id,category.icon,transaction.time,category.color from transaction left join category on
   transaction.categoryId = category.id order by date desc`;
   }
-  transaction = transaction.filter(
-    (transaction) => today.getDate() - transaction.date.getDate() <= date
-  );
+  if (date) {
+    transaction = transaction.filter(
+      (transaction) => today.getDate() - transaction.date.getDate() <= date
+    );
+  }
 
   res.json(transaction);
 };

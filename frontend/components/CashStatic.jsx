@@ -1,8 +1,40 @@
+"use client";
+
 import { ArrowDown, ArrowUp } from "lucide-react";
 import { HeaderNav } from "./HeaderNav";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 export const CashStatic = () => {
+  let income = 0;
+  let expense = 0;
+  const [transaction, setTransaction] = useState([]);
+  const [incomeAmount, setIncomeAmount] = useState(0);
+  const [expenseAmount, setExpenseAmount] = useState(0);
+  const getTransactions = async () => {
+    const response = await fetch(`http://localhost:4000/transactions`);
+    const data = await response.json();
+    setTransaction(data);
+  };
+  useEffect(() => {
+    for (let i = 0; i < transaction.length; i++) {
+      if (transaction[i].type === "Income") {
+        income = income + Number(transaction[i].amount);
+      }
+    }
+    setIncomeAmount(income);
+  }, [transaction]);
+  useEffect(() => {
+    for (let i = 0; i < transaction.length; i++) {
+      if (transaction[i].type === "Expense") {
+        expense = expense + Number(transaction[i].amount);
+      }
+    }
+    setExpenseAmount(expense);
+  }, [transaction]);
+  useEffect(() => {
+    getTransactions();
+  }, []);
   return (
     <div className="max-w-[1200px] w-full mx-auto">
       <HeaderNav />
@@ -27,7 +59,7 @@ export const CashStatic = () => {
             <div className="px-6">
               <div className="pt-5">
                 <div className="flex gap-1 text-[#000000] text-4xl">
-                  <div>1,200,000</div>
+                  <div>{incomeAmount}</div>
                   <div>₮</div>
                 </div>
                 <div className="text-[#64748B] text-lg">Your Income Amount</div>
@@ -52,7 +84,7 @@ export const CashStatic = () => {
             <div className="px-6">
               <div className="pt-5">
                 <div className="flex gap-1 text-[#000000] text-4xl">
-                  <div>-1,200,000</div>
+                  <div>-{expenseAmount}</div>
                   <div>₮</div>
                 </div>
                 <div className="text-[#64748B] text-lg">Your Income Amount</div>

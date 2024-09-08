@@ -50,21 +50,21 @@ const chartConfig = {
 export function PieDonut() {
   return (
     <ChartContainer
-    config={chartConfig}
-    className="aspect-square max-h-[250px]"
-  >
-    <PieChart>
-      <ChartTooltip
-        cursor={false}
-        content={<ChartTooltipContent hideLabel />}
-      />
-      <Pie
-        data={chartData}
-        dataKey="visitors"
-        nameKey="browser"
-        innerRadius={60}
-      />
-    </PieChart>
-  </ChartContainer>
+      config={chartConfig}
+      className="aspect-square max-h-[250px]"
+    >
+      <PieChart>
+        <ChartTooltip
+          cursor={false}
+          content={<ChartTooltipContent hideLabel />}
+        />
+        <Pie
+          data={chartData}
+          dataKey="visitors"
+          nameKey="browser"
+          innerRadius={50}
+        />
+      </PieChart>
+    </ChartContainer>
   );
 }

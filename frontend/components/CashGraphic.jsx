@@ -142,8 +142,50 @@ export function CashGraphic() {
         <div className="border-b-2 py-4 px-6">
           <CardTitle>Income - Expense</CardTitle>
         </div>
-        <div>
-          <PieDonut />
+        <div className="flex">
+          <div className="flex-1">
+            <PieDonut />
+          </div>
+          <div className="max-w-[337px] w-full flex mt-8">
+            <div className="flex flex-col items-center">
+              <div className="flex-1">
+                <div className="w-4 h-4 bg-black rounded-full"></div>
+                <div>
+                  <Bar
+                    data={{
+                      labels: ["A", "B", "C"],
+                      datasets: [
+                        {
+                          labels: "Revanue",
+                          data: [200, 300, 400],
+                        },
+                      ],
+                    }}
+                  />
+                </div>
+              </div>
+              <div className="flex-1">
+                <div className="w-4 h-4 bg-purple-500 rounded-full"></div>
+                <div>{}</div>
+              </div>
+              <div className="flex-1">
+                <div className="w-4 h-4 bg-green-400 rounded-full"></div>
+                <div>{}</div>
+              </div>
+              <div className="flex-1">
+                <div className="w-4 h-4 bg-sky-500 rounded-full"></div>
+                <div>{}</div>
+              </div>
+              <div className="flex-1">
+                <div className="w-4 h-4 bg-gray-700 rounded-full"></div>
+                <div>{}</div>
+              </div>
+              <div className="flex-1"></div>
+              <div></div>
+            </div>
+            <div></div>
+            <div></div>
+          </div>
         </div>
       </Card>
     </div>
