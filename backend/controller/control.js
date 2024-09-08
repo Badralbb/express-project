@@ -30,10 +30,16 @@ const deleteAllCategoires = async (req, res) => {
 
 const getTransaction = async (req, res) => {
   const { date } = req.query;
+  const { order } = req.query;
   const today = new Date();
   let transaction =
     await sql`select transaction.date,transaction.amount,transaction.type,category.name,transaction.id,category.icon,transaction.time,category.color from transaction left join category on
-  transaction.categoryId = category.id order by date`;
+  transaction.categoryId = category.id order by date asc`;
+  if (order === "Newest first") {
+    transaction =
+      await sql`select transaction.date,transaction.amount,transaction.type,category.name,transaction.id,category.icon,transaction.time,category.color from transaction left join category on
+  transaction.categoryId = category.id order by date desc`;
+  }
   transaction = transaction.filter(
     (transaction) => today.getDate() - transaction.date.getDate() <= date
   );
@@ -55,7 +61,14 @@ const postTransaction = async (req, res) => {
   await sql`insert into transaction ${sql(input, Object.keys(input))}`;
   res.status(201).json(["Success"]);
 };
+const deleteTransactions = async (req, res) => {
+  const { ids } = req.body;
+  for (let i = 0; i < ids.length; i++) {
+    await sql`delete from transaction where id = ${ids[i]} `;
+  }
 
+  res.sendStatus(204);
+};
 // const putTransactions = async (req, res) => {
 //   const { id } = req.params;
 //   await sql`update transaction set where id=${id}`;
@@ -75,4 +88,5 @@ module.exports = {
   getTransaction,
   postTransaction,
   getOneCategory,
+  deleteTransactions,
 };

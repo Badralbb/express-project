@@ -20,19 +20,19 @@ export const CategoriesList = ({ categories, typeValue }) => {
   const [showTrash, setShowTrash] = useState(false);
   const [count, setCount] = useState(1);
   const [transactions, setTransactions] = useState([]);
-  const [checkboxName, setCheckboxName] = useState("");
-  const [checkboxValue, setCheckboxValue] = useState([]);
 
+  const [order, setOrder] = useState("Newest first");
+  const [selectedTransactions, setSelectedTransactions] = useState([]);
   const loadTransactionList = async () => {
     const response = await fetch(
-      `http://localhost:4000/transactions?date=${count}`
+      `http://localhost:4000/transactions?date=${count}&order=${order}`
     );
     const data = await response.json();
     setTransactions(data);
   };
   useEffect(() => {
     loadTransactionList();
-  }, [count]);
+  }, [count, order]);
   const countDown = () => {
     if (count != 1) {
       setCount(count - 1);
@@ -43,7 +43,29 @@ export const CategoriesList = ({ categories, typeValue }) => {
       setCount(count + 1);
     }
   };
-  console.log({ transactions });
+  const check = (id) => {
+    setSelectedTransactions(
+      (prevSelected) =>
+        prevSelected.includes(id)
+          ? prevSelected.filter((postId) => postId !== id) // Хэрэв байгаа бол устгана
+          : [...prevSelected, id] // Хэрэв байхгүй бол нэмнэ
+    );
+  };
+
+  // Устгах товч дарах үед
+  const handleDelete = async () => {
+    console.log({ selectedTransactions });
+
+    await fetch(`http://localhost:4000/transactions`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ ids: selectedTransactions }),
+    });
+    setSelectedTransactions([]);
+    loadTransactionList();
+  };
   return (
     <div className="mt-6 max-w-[894px] w-full flex flex-col gap-6">
       <RecordDialog
@@ -68,15 +90,27 @@ export const CategoriesList = ({ categories, typeValue }) => {
             <ChevronRight />
           </div>
         </div>
-        <div className="flex bg-[#F9FAFB] p-3 rounded-lg">
-          <div className="flex-1">Newest first</div>
+        <div className="flex bg-[#F9FAFB] p-3 rounded-lg cursor-pointer">
+          {order === "Newest first" ? (
+            <div onClick={() => setOrder("Oldest first")} className="flex-1">
+              Newest first
+            </div>
+          ) : (
+            <div className="flex-1" onClick={() => setOrder("Newest first")}>
+              Oldest first
+            </div>
+          )}
           <ChevronDown />
         </div>
       </div>
       <div className="flex flex-col gap-3">
         <div className="flex gap-5">
           <div>Today</div>
-          <div className="cursor-pointer">{showTrash && <Trash />}</div>
+          <div className="cursor-pointer">
+            {selectedTransactions.length > 0 && (
+              <Trash onClick={handleDelete} />
+            )}
+          </div>
         </div>
         {transactions.map(
           (transaction) =>
@@ -87,7 +121,11 @@ export const CategoriesList = ({ categories, typeValue }) => {
               >
                 <div className="flex gap-2 items-center">
                   <div className="cursor-pointer">
-                    <Input type="checkbox" />
+                    <Input
+                      type="checkbox"
+                      onChange={() => check(transaction.id)}
+                      checked={selectedTransactions.includes(transaction.id)}
+                    />
                   </div>
                   <div>
                     <CategoryIcon
