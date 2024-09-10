@@ -50,6 +50,7 @@ export const CategoriesList = ({ categories, typeValue }) => {
           ? prevSelected.filter((postId) => postId !== id)
           : [...prevSelected, id]
     );
+    console.log({selectedTransactions})
   };
 
   // Устгах товч дарах үед
@@ -59,8 +60,8 @@ export const CategoriesList = ({ categories, typeValue }) => {
     await fetch(`http://localhost:4000/transactions`, {
       method: "DELETE",
       headers: {
-        "Content-Type": "application/json",
-      },
+        "Content-Type": "application/json; charset=utf-8"
+      }, 
       body: JSON.stringify({ ids: selectedTransactions }),
     });
     setSelectedTransactions([]);
