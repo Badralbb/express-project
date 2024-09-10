@@ -47,8 +47,8 @@ export const CategoriesList = ({ categories, typeValue }) => {
     setSelectedTransactions(
       (prevSelected) =>
         prevSelected.includes(id)
-          ? prevSelected.filter((postId) => postId !== id) // Хэрэв байгаа бол устгана
-          : [...prevSelected, id] // Хэрэв байхгүй бол нэмнэ
+          ? prevSelected.filter((postId) => postId !== id)
+          : [...prevSelected, id]
     );
   };
 
