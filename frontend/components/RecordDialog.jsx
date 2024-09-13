@@ -141,7 +141,7 @@ export const RecordDialog = ({
                         {amountType === "Expense" ? (
                           <>choose</>
                         ) : (
-                          <>fsaklfjasdjgkl</>
+                          <>fsaklfjasdjgkladas</>
                         )}
                       </div>
                     ) : (

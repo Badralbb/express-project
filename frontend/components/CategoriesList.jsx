@@ -44,15 +44,13 @@ export const CategoriesList = ({ categories, typeValue }) => {
     }
   };
   const check = (id) => {
-    setSelectedTransactions(
-      (prevSelected) =>
-        prevSelected.includes(id)
-          ? prevSelected.filter((postId) => postId !== id) // Хэрэв байгаа бол устгана
-          : [...prevSelected, id] // Хэрэв байхгүй бол нэмнэ
+    setSelectedTransactions((prevSelected) =>
+      prevSelected.includes(id)
+        ? prevSelected.filter((postId) => postId !== id)
+        : [...prevSelected, id]
     );
   };
 
-  // Устгах товч дарах үед
   const handleDelete = async () => {
     console.log({ selectedTransactions });
 
