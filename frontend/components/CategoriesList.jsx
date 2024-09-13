@@ -44,11 +44,6 @@ export const CategoriesList = ({ categories, typeValue }) => {
     }
   };
   const check = (id) => {
-    setSelectedTransactions(
-      (prevSelected) =>
-        prevSelected.includes(id)
-          ? prevSelected.filter((postId) => postId !== id)
-          : [...prevSelected, id]
     setSelectedTransactions((prevSelected) =>
       prevSelected.includes(id)
         ? prevSelected.filter((postId) => postId !== id)
