@@ -25,7 +25,7 @@ export const CategoriesList = ({ categories, typeValue }) => {
   const [selectedTransactions, setSelectedTransactions] = useState([]);
   const loadTransactionList = async () => {
     const response = await fetch(
-      `http://localhost:4000/transactions?date=${count}&order=${order}`
+      `https://express-project-wbdw.onrender.com/transactions?date=${count}&order=${order}`
     );
     const data = await response.json();
     setTransactions(data);
@@ -44,24 +44,23 @@ export const CategoriesList = ({ categories, typeValue }) => {
     }
   };
   const check = (id) => {
-    setSelectedTransactions(
-      (prevSelected) =>
-        prevSelected.includes(id)
-          ? prevSelected.filter((postId) => postId !== id)
-          : [...prevSelected, id]
+    setSelectedTransactions((prevSelected) =>
+      prevSelected.includes(id)
+        ? prevSelected.filter((postId) => postId !== id)
+        : [...prevSelected, id]
     );
-    console.log({selectedTransactions})
+    console.log({ selectedTransactions });
   };
 
   // Устгах товч дарах үед
   const handleDelete = async () => {
     console.log({ selectedTransactions });
 
-    await fetch(`http://localhost:4000/transactions`, {
+    await fetch(`https://express-project-wbdw.onrender.com/transactions`, {
       method: "DELETE",
       headers: {
-        "Content-Type": "application/json; charset=utf-8"
-      }, 
+        "Content-Type": "application/json; charset=utf-8",
+      },
       body: JSON.stringify({ ids: selectedTransactions }),
     });
     setSelectedTransactions([]);

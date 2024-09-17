@@ -12,7 +12,9 @@ export const CashStatic = () => {
   const [incomeAmount, setIncomeAmount] = useState(0);
   const [expenseAmount, setExpenseAmount] = useState(0);
   const getTransactions = async () => {
-    const response = await fetch(`http://localhost:4000/transactions`);
+    const response = await fetch(
+      `https://express-project-wbdw.onrender.com/transactions`
+    );
     const data = await response.json();
     setTransaction(data);
   };

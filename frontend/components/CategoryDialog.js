@@ -57,7 +57,7 @@ export const CategoryDialog = ({
   const createNewCategory = async () => {
     setLoading(true);
     if (value) {
-      await fetch(`http://localhost:4000/categories`, {
+      await fetch(`https://express-project-wbdw.onrender.com/categories`, {
         method: "POST",
         body: JSON.stringify({
           name: value,

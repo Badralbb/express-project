@@ -34,7 +34,9 @@ export const RecordDialog = ({
   onComplete,
 }) => {
   async function getOneCategory(id) {
-    const response = await fetch(`http://localhost:4000/categories/${id}`);
+    const response = await fetch(
+      `https://express-project-wbdw.onrender.com/categories/${id}`
+    );
     const data = await response.json();
     setOneCategory(data);
   }
@@ -61,7 +63,7 @@ export const RecordDialog = ({
   };
   const createNewTransaction = async () => {
     if (amountValue && oneCategory && time) {
-      await fetch(`http://localhost:4000/transactions`, {
+      await fetch(`https://express-project-wbdw.onrender.com/transactions`, {
         method: "POST",
         body: JSON.stringify({
           amount: amountValue,

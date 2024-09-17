@@ -6,7 +6,9 @@ import { CategoryIcon } from "./CategoryIcon";
 export const CashRecords = () => {
   const [transaction, setTransaction] = useState([]);
   const getTransactions = async () => {
-    const response = await fetch(`http://localhost:4000/transactions`);
+    const response = await fetch(
+      `https://express-project-wbdw.onrender.com/transactions`
+    );
     const data = await response.json();
     setTransaction(data);
   };

@@ -14,13 +14,14 @@ import { CategoriesList } from "./CategoriesList";
 import { CategoryIcon } from "./CategoryIcon";
 import { CategoryDialog } from "./CategoryDialog";
 
-
 export const AddNewCategory = () => {
   const [open, setOpen] = useState(false);
   const [categories, setCategories] = useState([]);
 
   const loadlist = async () => {
-    const response = await fetch(`http://localhost:4000/categories`);
+    const response = await fetch(
+      `https://express-project-wbdw.onrender.com/categories`
+    );
     const data = await response.json();
     setCategories(data);
   };
@@ -29,13 +30,13 @@ export const AddNewCategory = () => {
   }, []);
 
   const DeleteOneCategory = async (id) => {
-    await fetch(`http://localhost:4000/categories/${id}`, {
+    await fetch(`https://express-project-wbdw.onrender.com/categories/${id}`, {
       method: "DELETE",
     });
     loadlist();
   };
   const DeleteAllCategories = async () => {
-    await fetch(`http://localhost:4000/categories`, {
+    await fetch(`https://express-project-wbdw.onrender.com/categories`, {
       method: "DELETE",
     });
     loadlist();
@@ -193,7 +194,7 @@ export const AddNewCategory = () => {
         </div>
       </div>
 
-      <CategoriesList categories={categories} typeValue={typeValue}/>
+      <CategoriesList categories={categories} typeValue={typeValue} />
     </div>
   );
 };
